@@ -5,7 +5,7 @@ export default class Todo {
     _priority;
     _isCompleted;
     _notes;
-    _checklist = {};
+    _checklist = new Set();
 
     constructor(title, description, dueDate, priority, notes, checklist) {
         this._title = title;
@@ -69,10 +69,10 @@ export default class Todo {
     }
 
     addToChecklist(item) {
-        Object.defineProperty(this._checklist, item);
+        this._checklist.add(item);
     }
 
-    removeFromChecklist(item) {
-        delete this._checklist[item];
+    deleteFromChecklist(item) {
+        this._checklist.delete(item);
     }
 }
