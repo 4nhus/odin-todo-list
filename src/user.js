@@ -1,63 +1,76 @@
 export default class User {
-    _name = "";
-    _numberOfProjects = 0;
-    _numberOfCompletedProjects = 0;
-    _numberOfTodos = 0;
-    _numberOfCompletedTodos = 0;
+  _name = "";
+  _projects = new Set();
+  _numberOfProjects = 0;
+  _numberOfCompletedProjects = 0;
+  _numberOfTodos = 0;
+  _numberOfCompletedTodos = 0;
 
-    get name() {
-        return this._name;
-    }
+  get name() {
+    return this._name;
+  }
 
-    set name(value) {
-        this._name = value;
-    }
+  set name(value) {
+    this._name = value;
+  }
 
-    get numberOfProjects() {
-        return this._numberOfProjects;
-    }
+  get projects() {
+    return this._projects;
+  }
 
-    incrementNumberOfProjects(value) {
-        this._numberOfProjects++;
-    }
+  addProject(project) {
+    this.projects.add(project);
+  }
 
-    decrementNumberOfProjects(value) {
-        this._numberOfProjects--;
-    }
+  deleteProject(project) {
+    this.projects.delete(project);
+  }
 
-    get numberOfCompletedProjects() {
-        return this._numberOfCompletedProjects;
-    }
+  get numberOfProjects() {
+    return this._numberOfProjects;
+  }
 
-    incrementNumberOfCompletedProjects(value) {
-        this._numberOfCompletedProjects++;
-    }
+  incrementNumberOfProjects(value) {
+    this._numberOfProjects++;
+  }
 
-    decrementNumberOfCompletedProjects(value) {
-        this._numberOfCompletedProjects--;
-    }
+  decrementNumberOfProjects(value) {
+    this._numberOfProjects--;
+  }
 
-    get numberOfTodos() {
-        return this._numberOfTodos;
-    }
+  get numberOfCompletedProjects() {
+    return this._numberOfCompletedProjects;
+  }
 
-    incrementNumberOfTodos(value) {
-        this._numberOfTodos++;
-    }
+  incrementNumberOfCompletedProjects(value) {
+    this._numberOfCompletedProjects++;
+  }
 
-    decrementNumberOfTodos(value) {
-        this._numberOfTodos--;
-    }
+  decrementNumberOfCompletedProjects(value) {
+    this._numberOfCompletedProjects--;
+  }
 
-    get numberOfCompletedTodos() {
-        return this._numberOfCompletedTodos;
-    }
+  get numberOfTodos() {
+    return this._numberOfTodos;
+  }
 
-    incrementNumberOfCompletedTodos(value) {
-        this._numberOfCompletedTodos++;
-    }
+  incrementNumberOfTodos(value) {
+    this._numberOfTodos++;
+  }
 
-    decrementNumberOfCompletedTodos(value) {
-        this._numberOfCompletedTodos--;
-    }
+  decrementNumberOfTodos(value) {
+    this._numberOfTodos--;
+  }
+
+  get numberOfCompletedTodos() {
+    return this._numberOfCompletedTodos;
+  }
+
+  incrementNumberOfCompletedTodos(value) {
+    this._numberOfCompletedTodos++;
+  }
+
+  decrementNumberOfCompletedTodos(value) {
+    this._numberOfCompletedTodos--;
+  }
 }
