@@ -1,3 +1,4 @@
+import './style.css';
 import Project from "./project";
 import User from "./user";
 
