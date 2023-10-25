@@ -21,11 +21,11 @@
         </select>
         <label for="todo-notes">Notes:</label>
         <textarea name="todo-notes" id="todo-notes" cols="30" rows="10"></textarea>
-        <button>Add todo</button>
+        <button id="add-todo-button">Add todo</button>
     </form>
 </dialog>
-<body class="w-screen h-screen bg-gray-300 grid-cols-1 grid-rows-3">
-<div id="menubar" class="w-screen bg-blue-950 p-4">
+<body class="grid w-screen h-screen bg-gray-300 grid-rows-[50px_calc(100%-80px)_30px]">
+<div id="header" class="w-screen bg-blue-950 p-4">
     <div class="flex gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-11 h-11 fill-blue-500">
             <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z"/>
@@ -36,14 +36,22 @@
 
     <h1 class="text-white">Hello, Anh</h1>
 </div>
-<div id="todos">
-    <button id="add-todo-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-            <path fill-rule="evenodd"
-                  d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
-                  clip-rule="evenodd"/>
-        </svg>
-    </button>
+<div id="body" class="grid grid-cols-2 ">
+    <div id="navigation" class="bg-blue-700">
+        FDS
+    </div>
+    <div id="todos">
+        <button id="new-todo-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <path fill-rule="evenodd"
+                      d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </button>
+    </div>
+</div>
+<div id="footer" class="w-screen bg-gray-800 text-center text-white">
+    By Anh Nguyen
 </div>
 </body>
 </html>
