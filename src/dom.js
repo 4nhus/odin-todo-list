@@ -1,13 +1,27 @@
 import { getCurrentProject } from "./main";
 import Todo from "./todo";
 
+function hideElementOnOutsideClick(element) {
+  const body = document.querySelector("body");
+  body.addEventListener("click", (e) => {
+    console.log("clicked on body");
+    element.close();
+  });
+}
+
 export default function setUpDOMManipulation() {
   const newTodoButton = document.getElementById("new-todo-button");
   const addTodoButton = document.getElementById("add-todo-button");
   const addTodoDialog = document.getElementById("add-todo-dialog");
+  hideElementOnOutsideClick(addTodoDialog);
 
-  newTodoButton.addEventListener("click", () => {
-    addTodoDialog.showModal();
+  addTodoDialog.addEventListener("click", (e) => {
+    e.stopImmediatePropagation();
+  });
+
+  newTodoButton.addEventListener("click", (e) => {
+    e.stopImmediatePropagation();
+    addTodoDialog.show();
   });
   addTodoButton.addEventListener("click", () => {
     const title = document.getElementById("todo-title").value;
@@ -22,7 +36,16 @@ export default function setUpDOMManipulation() {
   });
 }
 
+function displayTodo(todo) {}
+
 function createTodoCard(todo) {
+  const todoInfo = document.getElementById("todo");
+  hideElementOnOutsideClick(todoInfo);
+  todoInfo.addEventListener("click", (e) => {
+    e.stopImmediatePropagation();
+  });
+
+  const buttonWrapper = document.createElement("button");
   const todoCard = document.createElement("div");
   const title = document.createElement("h1");
   title.innerText = todo._title;
@@ -30,7 +53,12 @@ function createTodoCard(todo) {
   dueDate.innerText = todo._dueDate;
   todoCard.appendChild(title);
   todoCard.appendChild(dueDate);
-  return todoCard;
+  buttonWrapper.appendChild(todoCard);
+  buttonWrapper.addEventListener("click", (e) => {
+    todoInfo.show();
+    e.stopImmediatePropagation();
+  });
+  return buttonWrapper;
 }
 
 function clearTodos() {

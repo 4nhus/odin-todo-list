@@ -5,7 +5,7 @@
     <title>Todo List</title>
     <link rel="stylesheet" href="./style.css">
 </head>
-<dialog id="add-todo-dialog">
+<dialog id="add-todo-dialog" class="p-0">
     <form action="" method="dialog" class="flex flex-col">
         <label for="todo-title">Title *:</label>
         <input type="text" id="todo-title" name="todo-title" required>
@@ -22,6 +22,16 @@
         <label for="todo-notes">Notes:</label>
         <textarea name="todo-notes" id="todo-notes" cols="30" rows="10"></textarea>
         <button id="add-todo-button">Add todo</button>
+    </form>
+</dialog>
+<dialog id="todo">
+    <form action="" method="dialog" class="flex flex-col">
+        <label for="title">Title: </label><span id="title"></span>
+        <label for="description">Description: </label><span id="description"></span>
+        <label for="date">Due Date: </label><span id="date"></span>
+        <label for="priority">Priority: </label><span id="priority"></span>
+        <label for="notes">Notes: </label><span id="notes"></span>
+        <button id="edit-todo-button">Edit todo</button>
     </form>
 </dialog>
 <body class="grid w-screen h-screen bg-gray-300">
