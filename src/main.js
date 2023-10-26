@@ -9,6 +9,9 @@ projects.push(currentProject);
 
 setUpDOMManipulation();
 
+const element = document.getElementById("todo-date");
+element.valueAsNumber = Date.now() - new Date().getTimezoneOffset() * 60000;
+
 const user = new User();
 
 export function getCurrentProject() {

@@ -12,7 +12,7 @@
         <label for="todo-description">Description:</label>
         <textarea name="todo-description" id="todo-description" cols="30" rows="10"></textarea>
         <label for="todo-date">Due Date:</label>
-        <input type="date" id="todo-date" name="todo-date">
+        <input type="date" id="todo-date" name="todo-date" value="today">
         <label for="todo-priority">Priority:</label>
         <select name="todo-priority" id="todo-priority">
             <option value="low">Low</option>
@@ -24,7 +24,7 @@
         <button id="add-todo-button">Add todo</button>
     </form>
 </dialog>
-<body class="grid w-screen h-screen bg-gray-300 grid-rows-[50px_calc(100%-80px)_30px]">
+<body class="grid w-screen h-screen bg-gray-300">
 <div id="header" class="w-screen bg-blue-950 p-4">
     <div class="flex gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-11 h-11 fill-blue-500">
@@ -38,7 +38,7 @@
 </div>
 <div id="body" class="grid grid-cols-2 ">
     <div id="navigation" class="bg-blue-700">
-        FDS
+
     </div>
     <div id="todos">
         <button id="new-todo-button">

@@ -8,6 +8,6 @@
     font-family: -apple-systrem, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
 }
 
-#add-todo-dialog {
+dialog {
     margin: auto;
 }
