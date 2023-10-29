@@ -34,6 +34,13 @@ export default function setUpDOMManipulation() {
     );
     displayTodos();
   });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      addTodoDialog.close();
+      document.getElementById("todo").close();
+    }
+  });
 }
 
 function displayTodo(todo) {}
