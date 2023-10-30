@@ -1,11 +1,11 @@
 // TODO:
-//  create getters for DOM elements
 //  add styling
 //  add local storage
 //  refactor code
 //  add todo deletion
 //  add project deletion
 //  add todo info to the info dialog
+//  clear all dialogs when new dialog is opened
 
 import "./style.css";
 import Project from "./project";

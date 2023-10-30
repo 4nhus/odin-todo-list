@@ -1,16 +1,14 @@
 import { getCurrentProject, getCurrentUser } from "./main";
 import Todo from "./todo";
 import Project from "./project";
+import "./dom-getters";
 
 function resetTodoDueDateFormValue() {
-  const element = document.getElementById("todo-date");
-  element.valueAsNumber = Date.now() - new Date().getTimezoneOffset() * 60000;
+  getAddTodoDueDateInput().valueAsNumber =
+    Date.now() - new Date().getTimezoneOffset() * 60000;
 }
 
-function clearFormInputs(dialogId) {
-  const dialog = document.getElementById(dialogId);
-  const form = dialog.firstElementChild;
-
+function clearFormInputs(form) {
   Array.from(form.children)
     .filter((child) => child.value && child.value !== "low")
     .forEach((input) => {
@@ -20,92 +18,78 @@ function clearFormInputs(dialogId) {
   resetTodoDueDateFormValue();
 }
 
-function hideElementOnOutsideClick(element) {
-  const body = document.querySelector("body");
-  body.addEventListener("click", (e) => {
-    element.close();
+function closeDialogOnOutsideClick(dialog) {
+  window.addEventListener("click", (e) => {
+    dialog.close();
   });
 }
 
 export default function setUpDOMManipulation() {
   resetTodoDueDateFormValue();
   displayProjects();
-  const newTodoButton = document.getElementById("new-todo-button");
-  const addTodoButton = document.getElementById("add-todo-button");
-  const addTodoDialog = document.getElementById("add-todo-dialog");
-  hideElementOnOutsideClick(addTodoDialog);
 
-  addTodoDialog.addEventListener("click", (e) => {
+  getAddTodoDialog().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
   });
 
-  newTodoButton.addEventListener("click", (e) => {
+  getNewTodoButton().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
-    addTodoDialog.show();
+    getAddTodoDialog().show();
   });
 
-  addTodoButton.addEventListener("click", () => {
-    const todoForm = addTodoDialog.firstElementChild;
-
-    if (todoForm.checkValidity()) {
-      const title = document.getElementById("todo-title").value;
-      const description = document.getElementById("todo-description").value;
-      const dueDate = document.getElementById("todo-date").value;
-      const priority = document.getElementById("todo-priority").value;
-      const notes = document.getElementById("todo-notes").value;
+  getAddTodoButton().addEventListener("click", () => {
+    if (getAddTodoForm().checkValidity()) {
+      const title = getAddTodoTitleInput().value;
+      const description = getAddTodoDescriptionInput().value;
+      const dueDate = getAddTodoDueDateInput().value;
+      const priority = getAddTodoPriorityInput().value;
+      const notes = getAddTodoNotesInput().value;
 
       getCurrentProject().addTodo(
         new Todo(title, description, dueDate, priority, notes),
       );
-      console.log("here");
+
       displayTodos();
-      addTodoDialog.close();
-      clearFormInputs("add-todo-dialog");
+      getAddTodoDialog().close();
+      clearFormInputs(getAddTodoForm());
     }
   });
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
-      addTodoDialog.close();
-      document.getElementById("info-todo-dialog").close();
-      addProjectDialog.close();
+      getAddTodoDialog().close();
+      getInfoTodoDialog().close();
+      getAddProjectDialog().close();
     }
   });
 
-  const addProjectDialog = document.getElementById("add-project-dialog");
-  addProjectDialog.addEventListener("click", (e) => {
+  getAddProjectDialog().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
   });
 
-  hideElementOnOutsideClick(addProjectDialog);
-  const newProjectButton = document.getElementById("new-project-button");
-  newProjectButton.addEventListener("click", (e) => {
+  closeDialogOnOutsideClick(getAddProjectDialog());
+  getNewProjectButton().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
-    addProjectDialog.show();
+    getAddProjectDialog().show();
   });
 
-  const addProjectButton = document.getElementById("add-project-button");
-
-  addProjectButton.addEventListener("click", () => {
-    const projectForm = addProjectDialog.firstElementChild;
-
-    if (projectForm.checkValidity()) {
-      const title = document.getElementById("project-title").value;
-      const description = document.getElementById("project-description").value;
+  getAddProjectButton().addEventListener("click", () => {
+    if (getAddProjectForm().checkValidity()) {
+      const title = getAddProjectTitleInput().value;
+      const description = getAddProjectDescriptionInput().value;
 
       getCurrentUser().addProject(new Project(title, description));
       displayProjects();
 
-      clearFormInputs("add-project-dialog");
-      addProjectDialog.close();
+      clearFormInputs(getAddProjectForm());
+      getAddProjectDialog().close();
     }
   });
 }
 
 function clearProjects() {
-  const projectsDiv = document.getElementById("projects");
-  while (projectsDiv.children.length > 0) {
-    projectsDiv.removeChild(projectsDiv.lastChild);
+  while (getProjectsDiv().children.length > 0) {
+    getProjectsDiv().removeChild(getProjectsDiv().lastChild);
   }
 }
 
@@ -135,18 +119,16 @@ function displayProjects() {
     projects.push(createProjectCard(project));
   });
 
-  const projectsDiv = document.getElementById("projects");
   projects.forEach((project) => {
-    projectsDiv.appendChild(project);
+    getProjectsDiv().appendChild(project);
   });
 }
 
 function displayTodo(todo) {}
 
 function createTodoCard(todo) {
-  const todoInfoDialog = document.getElementById("info-todo-dialog");
-  hideElementOnOutsideClick(todoInfoDialog);
-  todoInfoDialog.addEventListener("click", (e) => {
+  closeDialogOnOutsideClick(getInfoTodoDialog());
+  getInfoTodoDialog().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
   });
 
@@ -165,16 +147,15 @@ function createTodoCard(todo) {
     document.getElementById("todo-date").value = todo.dueDate;
     document.getElementById("todo-priority").value = todo.priority;
     document.getElementById("todo-notes").value = todo.notes;
-    todoInfoDialog.show();
+    getInfoTodoDialog().show();
     e.stopImmediatePropagation();
   });
   return buttonWrapper;
 }
 
 function clearTodos() {
-  const todosDiv = document.getElementById("todos");
-  while (todosDiv.children.length > 1) {
-    todosDiv.removeChild(todosDiv.lastChild);
+  while (getTodosDiv().children.length > 1) {
+    getTodosDiv().removeChild(getTodosDiv().lastChild);
   }
 }
 
@@ -185,8 +166,7 @@ function displayTodos() {
     todos.push(createTodoCard(todo));
   });
 
-  const todosDiv = document.getElementById("todos");
   todos.forEach((todo) => {
-    todosDiv.appendChild(todo);
+    getTodosDiv().appendChild(todo);
   });
 }
