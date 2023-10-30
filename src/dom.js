@@ -2,10 +2,24 @@ import { getCurrentProject, getCurrentUser } from "./main";
 import Todo from "./todo";
 import Project from "./project";
 
+function clearFormInputs(dialogId) {
+  console.log("here");
+  const dialog = document.getElementById(dialogId);
+  console.log(dialog);
+  const form = dialog.firstElementChild;
+
+  console.log(form);
+
+  Array.from(form.children)
+    .filter((child) => child.value)
+    .forEach((input) => {
+      input.value = "";
+    });
+}
+
 function hideElementOnOutsideClick(element) {
   const body = document.querySelector("body");
   body.addEventListener("click", (e) => {
-    console.log("clicked on body");
     element.close();
   });
 }
@@ -35,7 +49,9 @@ export default function setUpDOMManipulation() {
     getCurrentProject().addTodo(
       new Todo(title, description, dueDate, priority, notes),
     );
+    clearFormInputs("add-todo-dialog");
     displayTodos();
+    addTodoDialog.close();
   });
 
   document.addEventListener("keydown", (e) => {
@@ -65,6 +81,9 @@ export default function setUpDOMManipulation() {
 
     getCurrentUser().addProject(new Project(title, description));
     displayProjects();
+
+    clearFormInputs("add-project-dialog");
+    addProjectDialog.close();
   });
 }
 
@@ -80,8 +99,6 @@ function createProjectCard(project) {
   const projectCard = document.createElement("div");
   const title = document.createElement("h1");
   title.innerText = project.title;
-  console.log("creating project card");
-  console.log(title.innerText);
   const description = document.createElement("h1");
   description.innerText = project.description;
   projectCard.appendChild(title);
@@ -98,10 +115,8 @@ function createProjectCard(project) {
 function displayProjects() {
   clearProjects();
   const projects = [];
-  console.log("here");
 
   getCurrentUser()._projects.forEach((project) => {
-    console.log(project._title);
     projects.push(createProjectCard(project));
   });
 
