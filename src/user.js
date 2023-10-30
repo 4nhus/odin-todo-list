@@ -1,10 +1,21 @@
 export default class User {
-  _name = "";
+  _name;
   _projects = new Set();
-  _numberOfProjects = 0;
-  _numberOfCompletedProjects = 0;
-  _numberOfTodos = 0;
-  _numberOfCompletedTodos = 0;
+  _currentProject;
+  _numberOfProjects;
+  _numberOfCompletedProjects;
+  _numberOfTodos;
+  _numberOfCompletedTodos;
+
+  constructor(name, currentProject) {
+    this._name = name;
+    this._projects.add(currentProject);
+    this._currentProject = currentProject;
+    this._numberOfProjects = 1;
+    this._numberOfCompletedProjects = 1;
+    this._numberOfTodos = 0;
+    this._numberOfCompletedTodos = 0;
+  }
 
   get name() {
     return this._name;
@@ -16,6 +27,14 @@ export default class User {
 
   get projects() {
     return this._projects;
+  }
+
+  get currentProject() {
+    return this._currentProject;
+  }
+
+  set currentProject(value) {
+    this._currentProject = value;
   }
 
   addProject(project) {

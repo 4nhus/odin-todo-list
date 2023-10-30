@@ -1,5 +1,6 @@
-import { getCurrentProject } from "./main";
+import { getCurrentProject, getCurrentUser } from "./main";
 import Todo from "./todo";
+import Project from "./project";
 
 function hideElementOnOutsideClick(element) {
   const body = document.querySelector("body");
@@ -10,6 +11,7 @@ function hideElementOnOutsideClick(element) {
 }
 
 export default function setUpDOMManipulation() {
+  displayProjects();
   const newTodoButton = document.getElementById("new-todo-button");
   const addTodoButton = document.getElementById("add-todo-button");
   const addTodoDialog = document.getElementById("add-todo-dialog");
@@ -23,6 +25,7 @@ export default function setUpDOMManipulation() {
     e.stopImmediatePropagation();
     addTodoDialog.show();
   });
+
   addTodoButton.addEventListener("click", () => {
     const title = document.getElementById("todo-title").value;
     const description = document.getElementById("todo-description").value;
@@ -40,6 +43,71 @@ export default function setUpDOMManipulation() {
       addTodoDialog.close();
       document.getElementById("todo").close();
     }
+  });
+
+  const addProjectDialog = document.getElementById("add-project-dialog");
+  addProjectDialog.addEventListener("click", (e) => {
+    e.stopImmediatePropagation();
+  });
+
+  hideElementOnOutsideClick(addProjectDialog);
+  const newProjectButton = document.getElementById("new-project-button");
+  newProjectButton.addEventListener("click", (e) => {
+    e.stopImmediatePropagation();
+    addProjectDialog.show();
+  });
+
+  const addProjectButton = document.getElementById("add-project-button");
+
+  addProjectButton.addEventListener("click", () => {
+    const title = document.getElementById("project-title").value;
+    const description = document.getElementById("project-description").value;
+
+    getCurrentUser().addProject(new Project(title, description));
+    displayProjects();
+  });
+}
+
+function clearProjects() {
+  const projectsDiv = document.getElementById("projects");
+  while (projectsDiv.children.length > 0) {
+    projectsDiv.removeChild(projectsDiv.lastChild);
+  }
+}
+
+function createProjectCard(project) {
+  const buttonWrapper = document.createElement("button");
+  const projectCard = document.createElement("div");
+  const title = document.createElement("h1");
+  title.innerText = project.title;
+  console.log("creating project card");
+  console.log(title.innerText);
+  const description = document.createElement("h1");
+  description.innerText = project.description;
+  projectCard.appendChild(title);
+  projectCard.appendChild(description);
+  buttonWrapper.appendChild(projectCard);
+  buttonWrapper.addEventListener("click", (e) => {
+    // Make this project the current project
+    getCurrentUser().currentProject = project;
+    displayTodos();
+  });
+  return buttonWrapper;
+}
+
+function displayProjects() {
+  clearProjects();
+  const projects = [];
+  console.log("here");
+
+  getCurrentUser()._projects.forEach((project) => {
+    console.log(project._title);
+    projects.push(createProjectCard(project));
+  });
+
+  const projectsDiv = document.getElementById("projects");
+  projects.forEach((project) => {
+    projectsDiv.appendChild(project);
   });
 }
 

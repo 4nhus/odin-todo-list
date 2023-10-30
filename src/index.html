@@ -5,7 +5,7 @@
     <title>Todo List</title>
     <link rel="stylesheet" href="./style.css">
 </head>
-<dialog id="add-todo-dialog" class="p-0">
+<dialog id="add-todo-dialog">
     <form action="" method="dialog" class="flex flex-col">
         <label for="todo-title">Title *:</label>
         <input type="text" id="todo-title" name="todo-title" required>
@@ -34,6 +34,15 @@
         <button id="edit-todo-button">Edit todo</button>
     </form>
 </dialog>
+<dialog id="add-project-dialog" class="p-0">
+    <form action="" method="dialog" class="flex flex-col">
+        <label for="project-title">Title *:</label>
+        <input type="text" id="project-title" name="project-title" required>
+        <label for="project-description">Description:</label>
+        <textarea name="project-description" id="project-description" cols="30" rows="10"></textarea>
+        <button id="add-project-button">Add project</button>
+    </form>
+</dialog>
 <body class="grid w-screen h-screen bg-gray-300">
 <div id="header" class="w-screen bg-blue-950 p-4">
     <div class="flex gap-2">
@@ -47,16 +56,26 @@
     <h1 class="text-white">Hello, Anh</h1>
 </div>
 <div id="body" class="grid grid-cols-2 ">
-    <div id="navigation" class="bg-blue-700">
-
+    <div id="projects" class="col-span-2">
     </div>
-    <div id="todos">
-        <button id="new-todo-button">
+    <div id="navigation" class="bg-blue-700">
+        <button id="new-project-button" class="flex">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                 <path fill-rule="evenodd"
                       d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
                       clip-rule="evenodd"/>
             </svg>
+            Add project
+        </button>
+    </div>
+    <div id="todos">
+        <button id="new-todo-button" class="flex">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <path fill-rule="evenodd"
+                      d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
+                      clip-rule="evenodd"/>
+            </svg>
+            Add todo
         </button>
     </div>
 </div>

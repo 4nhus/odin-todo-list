@@ -1,11 +1,35 @@
 export default class Project {
-    _todos = new Set();
+  _title;
+  _description;
+  _todos = new Set();
 
-    get todos() {
-        return this._todos;
-    }
+  constructor(title, description) {
+    this._name = title;
+    this._description = description;
+    this._title = title;
+  }
 
-    addTodo(todo) {
-        this._todos.add(todo);
-    }
+  get title() {
+    return this._title;
+  }
+
+  set title(value) {
+    this._title = value;
+  }
+
+  get description() {
+    return this._description;
+  }
+
+  set description(value) {
+    this._description = value;
+  }
+
+  get todos() {
+    return this._todos;
+  }
+
+  addTodo(todo) {
+    this._todos.add(todo);
+  }
 }
