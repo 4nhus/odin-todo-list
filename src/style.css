@@ -11,3 +11,9 @@
 dialog {
     margin: auto;
 }
+
+button {
+    border-color: black;
+    border-style: solid;
+    border-width: thin;
+}
