@@ -36,7 +36,7 @@ class Project {
     this._todos.add(todo);
   }
 
-  removeTodo(todo) {
+  deleteTodo(todo) {
     this._todos.delete(todo);
   }
 }

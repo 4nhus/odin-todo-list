@@ -21,8 +21,6 @@ function saveUserToLocalStorage() {
       value instanceof Set ? [...value] : value,
     ),
   );
-
-  console.log(JSON.parse(window.localStorage.getItem("user")));
 }
 
 export { isLocalStorageAvailable, saveUserToLocalStorage };

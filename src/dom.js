@@ -141,11 +141,12 @@ function displayProjects() {
 
 function displayTodo(todo) {}
 
-function createTodoCard(todo) {
+function createTodoCard(todo, project) {
   DOM.getInfoTodoDialog().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
   });
 
+  const divWrapper = document.createElement("div");
   const buttonWrapper = document.createElement("button");
   const todoCard = document.createElement("div");
   const title = document.createElement("h1");
@@ -164,7 +165,17 @@ function createTodoCard(todo) {
     DOM.getInfoTodoDialog().show();
     e.stopImmediatePropagation();
   });
-  return buttonWrapper;
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("h-11", "w-11");
+  deleteButton.style.backgroundImage = "url(./assets/trash-bin.svg)";
+  deleteButton.addEventListener("click", () => {
+    project.deleteTodo(todo);
+    displayTodos();
+    saveUserToLocalStorage();
+  });
+  divWrapper.appendChild(buttonWrapper);
+  divWrapper.appendChild(deleteButton);
+  return divWrapper;
 }
 
 function clearTodos() {
@@ -178,7 +189,7 @@ function displayTodos() {
   const todos = [];
 
   getCurrentProject()._todos.forEach((todo) => {
-    todos.push(createTodoCard(todo));
+    todos.push(createTodoCard(todo, getCurrentProject()));
   });
 
   todos.forEach((todo) => {
