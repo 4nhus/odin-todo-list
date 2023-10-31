@@ -23,7 +23,7 @@ function getAddProjectTitleInput() {
 }
 
 function getAddProjectDescriptionInput() {
-  return document.getElementById("project-date");
+  return document.getElementById("project-description");
 }
 
 function getNewTodoButton() {
@@ -47,7 +47,7 @@ function getInfoTodoDialog() {
 }
 
 function getAddProjectDialog() {
-  return document.getElementById("info-todo-dialog");
+  return document.getElementById("add-project-dialog");
 }
 
 function getAddTodoForm() {

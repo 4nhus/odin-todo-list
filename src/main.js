@@ -6,13 +6,27 @@
 //  add project deletion
 //  add todo info to the info dialog
 //  clear all dialogs when new dialog is opened
+//  disable required form values on hide
+//  add ability to edit user details
+//  add page showing user details
 
 import "./style.css";
-import Project from "./project";
-import User from "./user";
+import { createDefaultUser, createUserFromJSON, User } from "./user";
 import setUpDOMManipulation from "./dom";
+import { isLocalStorageAvailable } from "./local-storage";
 
-const user = new User("", new Project("My first project", ""));
+// const user = (isLocalStorageAvailable() && window.localStorage.getItem("user")) || new User("", new Project("My second project", ""));
+let user;
+
+if (isLocalStorageAvailable()) {
+  user =
+    createUserFromJSON(JSON.parse(window.localStorage.getItem("user"))) ||
+    createDefaultUser();
+} else {
+  createDefaultUser();
+}
+
+console.log(user);
 
 setUpDOMManipulation();
 

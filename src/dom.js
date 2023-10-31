@@ -1,7 +1,8 @@
 import { getCurrentProject, getCurrentUser } from "./main";
-import Todo from "./todo";
-import Project from "./project";
+import { Todo } from "./todo";
+import { Project } from "./project";
 import * as DOM from "./dom-getters";
+import { saveUserToLocalStorage } from "./local-storage";
 
 function resetTodoDueDateFormValue() {
   DOM.getAddTodoDueDateInput().valueAsNumber =
@@ -40,6 +41,7 @@ function setupAddTodoButton() {
       displayTodos();
       DOM.getAddTodoDialog().close();
       clearFormInputs(DOM.getAddTodoForm());
+      saveUserToLocalStorage();
     }
   });
 }
@@ -50,11 +52,13 @@ function setupAddProjectButton() {
       const title = DOM.getAddProjectTitleInput().value;
       const description = DOM.getAddProjectDescriptionInput().value;
 
-      getCurrentUser().addProject(new Project(title, description));
+      getCurrentUser().addProject(new Project(title, description, new Set()));
+      console.log(getCurrentUser());
       displayProjects();
 
       clearFormInputs(DOM.getAddProjectForm());
       DOM.getAddProjectDialog().close();
+      saveUserToLocalStorage();
     }
   });
 }
@@ -62,6 +66,7 @@ function setupAddProjectButton() {
 export default function setUpDOMManipulation() {
   resetTodoDueDateFormValue();
   displayProjects();
+  displayTodos();
 
   DOM.getAddTodoDialog().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
@@ -171,6 +176,7 @@ function clearTodos() {
 function displayTodos() {
   clearTodos();
   const todos = [];
+
   getCurrentProject()._todos.forEach((todo) => {
     todos.push(createTodoCard(todo));
   });

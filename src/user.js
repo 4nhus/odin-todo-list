@@ -1,20 +1,33 @@
-export default class User {
+import { createProjectFromJSON, createDefaultProject } from "./project";
+
+class User {
   _name;
-  _projects = new Set();
+  _projects;
   _currentProject;
   _numberOfProjects;
   _numberOfCompletedProjects;
   _numberOfTodos;
   _numberOfCompletedTodos;
 
-  constructor(name, currentProject) {
+  constructor(
+    name,
+    projects,
+    currentProject,
+    numberOfProjects,
+    numberOfCompleteProjects,
+    numberOfTodos,
+    numberOfCompletedTodos,
+  ) {
     this._name = name;
-    this._projects.add(currentProject);
+    this._projects = projects;
+    if (projects.size === 0) {
+      this._projects.add(currentProject);
+    }
     this._currentProject = currentProject;
-    this._numberOfProjects = 1;
-    this._numberOfCompletedProjects = 1;
-    this._numberOfTodos = 0;
-    this._numberOfCompletedTodos = 0;
+    this._numberOfProjects = numberOfProjects;
+    this._numberOfCompletedProjects = numberOfCompleteProjects;
+    this._numberOfTodos = numberOfTodos;
+    this._numberOfCompletedTodos = numberOfCompletedTodos;
   }
 
   get name() {
@@ -93,3 +106,34 @@ export default class User {
     this._numberOfCompletedTodos--;
   }
 }
+
+function createUserFromJSON(JSON) {
+  const projects = new Set();
+  JSON._projects.forEach((project) => {
+    projects.add(createProjectFromJSON(project));
+  });
+
+  return new User(
+    JSON._name,
+    projects,
+    projects.values().next().value,
+    JSON._numberOfProjects,
+    JSON._numberOfCompletedProjects,
+    JSON._numberOfTodos,
+    JSON._numberOfCompletedTodos,
+  );
+}
+
+function createDefaultUser() {
+  return new User(
+    "Default User Name",
+    new Set(),
+    createDefaultProject(),
+    1,
+    1,
+    0,
+    0,
+  );
+}
+
+export { User, createUserFromJSON, createDefaultUser };

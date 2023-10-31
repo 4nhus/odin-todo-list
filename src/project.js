@@ -1,12 +1,15 @@
-export default class Project {
+import { createTodoFromJSON } from "./todo";
+import { User } from "./user";
+
+class Project {
   _title;
   _description;
-  _todos = new Set();
+  _todos;
 
-  constructor(title, description) {
-    this._name = title;
-    this._description = description;
+  constructor(title, description, todos) {
     this._title = title;
+    this._description = description;
+    this._todos = todos;
   }
 
   get title() {
@@ -32,4 +35,23 @@ export default class Project {
   addTodo(todo) {
     this._todos.add(todo);
   }
+
+  removeTodo(todo) {
+    this._todos.delete(todo);
+  }
 }
+
+function createProjectFromJSON(JSON) {
+  const todos = new Set();
+  JSON._todos.forEach((todo) => {
+    todos.add(createTodoFromJSON(todo));
+  });
+
+  return new Project(JSON._title, JSON._description, todos);
+}
+
+function createDefaultProject() {
+  return new Project("Default Project Name", "", new Set());
+}
+
+export { Project, createProjectFromJSON, createDefaultProject };

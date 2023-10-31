@@ -1,16 +1,17 @@
-export default class Todo {
+class Todo {
   _title;
   _description;
   _dueDate;
   _priority;
-  _isCompleted = false;
+  _isCompleted;
   _notes;
 
-  constructor(title, description, dueDate, priority, notes) {
+  constructor(title, description, dueDate, priority, isCompleted, notes) {
     this._title = title;
     this._description = description;
     this._dueDate = dueDate;
     this._priority = priority;
+    this._isCompleted = isCompleted;
     this._notes = notes;
   }
 
@@ -58,11 +59,19 @@ export default class Todo {
     this._notes = notes;
   }
 
-  get checklist() {
-    return this._checklist;
-  }
-
   toggleCompletion() {
     this._isCompleted = !this._isCompleted;
   }
 }
+
+function createTodoFromJSON(JSON) {
+  return new Todo(
+    JSON._title,
+    JSON._description,
+    JSON._dueDate,
+    JSON._priority,
+    JSON._notes,
+  );
+}
+
+export { Todo, createTodoFromJSON };
