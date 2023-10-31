@@ -1,10 +1,10 @@
 import { getCurrentProject, getCurrentUser } from "./main";
 import Todo from "./todo";
 import Project from "./project";
-import "./dom-getters";
+import * as DOM from "./dom-getters";
 
 function resetTodoDueDateFormValue() {
-  getAddTodoDueDateInput().valueAsNumber =
+  DOM.getAddTodoDueDateInput().valueAsNumber =
     Date.now() - new Date().getTimezoneOffset() * 60000;
 }
 
@@ -24,72 +24,82 @@ function closeDialogOnOutsideClick(dialog) {
   });
 }
 
-export default function setUpDOMManipulation() {
-  resetTodoDueDateFormValue();
-  displayProjects();
-
-  getAddTodoDialog().addEventListener("click", (e) => {
-    e.stopImmediatePropagation();
-  });
-
-  getNewTodoButton().addEventListener("click", (e) => {
-    e.stopImmediatePropagation();
-    getAddTodoDialog().show();
-  });
-
-  getAddTodoButton().addEventListener("click", () => {
-    if (getAddTodoForm().checkValidity()) {
-      const title = getAddTodoTitleInput().value;
-      const description = getAddTodoDescriptionInput().value;
-      const dueDate = getAddTodoDueDateInput().value;
-      const priority = getAddTodoPriorityInput().value;
-      const notes = getAddTodoNotesInput().value;
+function setupAddTodoButton() {
+  DOM.getAddTodoButton().addEventListener("click", () => {
+    if (DOM.getAddTodoForm().checkValidity()) {
+      const title = DOM.getAddTodoTitleInput().value;
+      const description = DOM.getAddTodoDescriptionInput().value;
+      const dueDate = DOM.getAddTodoDueDateInput().value;
+      const priority = DOM.getAddTodoPriorityInput().value;
+      const notes = DOM.getAddTodoNotesInput().value;
 
       getCurrentProject().addTodo(
         new Todo(title, description, dueDate, priority, notes),
       );
 
       displayTodos();
-      getAddTodoDialog().close();
-      clearFormInputs(getAddTodoForm());
-    }
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      getAddTodoDialog().close();
-      getInfoTodoDialog().close();
-      getAddProjectDialog().close();
-    }
-  });
-
-  getAddProjectDialog().addEventListener("click", (e) => {
-    e.stopImmediatePropagation();
-  });
-
-  closeDialogOnOutsideClick(getAddProjectDialog());
-  getNewProjectButton().addEventListener("click", (e) => {
-    e.stopImmediatePropagation();
-    getAddProjectDialog().show();
-  });
-
-  getAddProjectButton().addEventListener("click", () => {
-    if (getAddProjectForm().checkValidity()) {
-      const title = getAddProjectTitleInput().value;
-      const description = getAddProjectDescriptionInput().value;
-
-      getCurrentUser().addProject(new Project(title, description));
-      displayProjects();
-
-      clearFormInputs(getAddProjectForm());
-      getAddProjectDialog().close();
+      DOM.getAddTodoDialog().close();
+      clearFormInputs(DOM.getAddTodoForm());
     }
   });
 }
 
+function setupAddProjectButton() {
+  DOM.getAddProjectButton().addEventListener("click", () => {
+    if (DOM.getAddProjectForm().checkValidity()) {
+      const title = DOM.getAddProjectTitleInput().value;
+      const description = DOM.getAddProjectDescriptionInput().value;
+
+      getCurrentUser().addProject(new Project(title, description));
+      displayProjects();
+
+      clearFormInputs(DOM.getAddProjectForm());
+      DOM.getAddProjectDialog().close();
+    }
+  });
+}
+
+export default function setUpDOMManipulation() {
+  resetTodoDueDateFormValue();
+  displayProjects();
+
+  DOM.getAddTodoDialog().addEventListener("click", (e) => {
+    e.stopImmediatePropagation();
+  });
+
+  DOM.getNewTodoButton().addEventListener("click", (e) => {
+    e.stopImmediatePropagation();
+    DOM.getAddTodoDialog().show();
+  });
+
+  setupAddTodoButton();
+  setupAddProjectButton();
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      DOM.getAddTodoDialog().close();
+      DOM.getInfoTodoDialog().close();
+      DOM.getAddProjectDialog().close();
+    }
+  });
+
+  DOM.getAddProjectDialog().addEventListener("click", (e) => {
+    e.stopImmediatePropagation();
+  });
+
+  closeDialogOnOutsideClick(DOM.getAddTodoDialog());
+  closeDialogOnOutsideClick(DOM.getAddProjectDialog());
+  closeDialogOnOutsideClick(DOM.getInfoTodoDialog());
+
+  DOM.getNewProjectButton().addEventListener("click", (e) => {
+    e.stopImmediatePropagation();
+    DOM.getAddProjectDialog().show();
+  });
+}
+
 function clearProjects() {
-  while (getProjectsDiv().children.length > 0) {
-    getProjectsDiv().removeChild(getProjectsDiv().lastChild);
+  while (DOM.getProjectsDiv().children.length > 0) {
+    DOM.getProjectsDiv().removeChild(DOM.getProjectsDiv().lastChild);
   }
 }
 
@@ -120,15 +130,14 @@ function displayProjects() {
   });
 
   projects.forEach((project) => {
-    getProjectsDiv().appendChild(project);
+    DOM.getProjectsDiv().appendChild(project);
   });
 }
 
 function displayTodo(todo) {}
 
 function createTodoCard(todo) {
-  closeDialogOnOutsideClick(getInfoTodoDialog());
-  getInfoTodoDialog().addEventListener("click", (e) => {
+  DOM.getInfoTodoDialog().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
   });
 
@@ -142,20 +151,20 @@ function createTodoCard(todo) {
   todoCard.appendChild(dueDate);
   buttonWrapper.appendChild(todoCard);
   buttonWrapper.addEventListener("click", (e) => {
-    document.getElementById("todo-title").value = todo.title;
-    document.getElementById("todo-description").value = todo.description;
-    document.getElementById("todo-date").value = todo.dueDate;
-    document.getElementById("todo-priority").value = todo.priority;
-    document.getElementById("todo-notes").value = todo.notes;
-    getInfoTodoDialog().show();
+    DOM.getAddTodoTitleInput().value = todo.title;
+    DOM.getAddTodoDescriptionInput().value = todo.description;
+    DOM.getAddTodoDueDateInput().value = todo.dueDate;
+    DOM.getAddTodoPriorityInput().value = todo.priority;
+    DOM.getAddTodoNotesInput().value = todo.notes;
+    DOM.getInfoTodoDialog().show();
     e.stopImmediatePropagation();
   });
   return buttonWrapper;
 }
 
 function clearTodos() {
-  while (getTodosDiv().children.length > 1) {
-    getTodosDiv().removeChild(getTodosDiv().lastChild);
+  while (DOM.getTodosDiv().children.length > 1) {
+    DOM.getTodosDiv().removeChild(DOM.getTodosDiv().lastChild);
   }
 }
 
@@ -167,6 +176,6 @@ function displayTodos() {
   });
 
   todos.forEach((todo) => {
-    getTodosDiv().appendChild(todo);
+    DOM.getTodosDiv().appendChild(todo);
   });
 }
