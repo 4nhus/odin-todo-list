@@ -108,7 +108,8 @@ function clearProjects() {
   }
 }
 
-function createProjectCard(project) {
+function createProjectCard(project, user) {
+  const divWrapper = document.createElement("div");
   const buttonWrapper = document.createElement("button");
   const projectCard = document.createElement("div");
   const title = document.createElement("h1");
@@ -123,7 +124,18 @@ function createProjectCard(project) {
     getCurrentUser().currentProject = project;
     displayTodos();
   });
-  return buttonWrapper;
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("h-11", "w-11");
+  deleteButton.style.backgroundImage = "url(./assets/trash-bin.svg)";
+  deleteButton.addEventListener("click", () => {
+    user.deleteProject(project);
+    displayTodos();
+    displayProjects();
+    saveUserToLocalStorage();
+  });
+  divWrapper.appendChild(buttonWrapper);
+  divWrapper.appendChild(deleteButton);
+  return divWrapper;
 }
 
 function displayProjects() {
@@ -131,7 +143,7 @@ function displayProjects() {
   const projects = [];
 
   getCurrentUser()._projects.forEach((project) => {
-    projects.push(createProjectCard(project));
+    projects.push(createProjectCard(project, getCurrentUser()));
   });
 
   projects.forEach((project) => {
