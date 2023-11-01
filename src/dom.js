@@ -3,6 +3,11 @@ import { Todo } from "./todo";
 import { Project } from "./project";
 import * as DOM from "./dom-getters";
 import { saveUserToLocalStorage } from "./local-storage";
+import {
+  getAddProjectDialog,
+  getAddTodoDialog,
+  getInfoTodoDialog,
+} from "./dom-getters";
 
 function resetTodoDueDateFormValue() {
   DOM.getAddTodoDueDateInput().valueAsNumber =
@@ -27,6 +32,7 @@ function closeDialogOnOutsideClick(dialog) {
 
 function setupAddTodoButton() {
   DOM.getAddTodoButton().addEventListener("click", () => {
+    closeOpenDialogs();
     if (DOM.getAddTodoForm().checkValidity()) {
       const title = DOM.getAddTodoTitleInput().value;
       const description = DOM.getAddTodoDescriptionInput().value;
@@ -48,6 +54,7 @@ function setupAddTodoButton() {
 
 function setupAddProjectButton() {
   DOM.getAddProjectButton().addEventListener("click", () => {
+    closeOpenDialogs();
     if (DOM.getAddProjectForm().checkValidity()) {
       const title = DOM.getAddProjectTitleInput().value;
       const description = DOM.getAddProjectDescriptionInput().value;
@@ -74,6 +81,7 @@ export default function setUpDOMManipulation() {
 
   DOM.getNewTodoButton().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
+    closeOpenDialogs();
     DOM.getAddTodoDialog().show();
   });
 
@@ -98,6 +106,7 @@ export default function setUpDOMManipulation() {
 
   DOM.getNewProjectButton().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
+    closeOpenDialogs();
     DOM.getAddProjectDialog().show();
   });
 }
@@ -169,6 +178,8 @@ function createTodoCard(todo, project) {
   todoCard.appendChild(dueDate);
   buttonWrapper.appendChild(todoCard);
   buttonWrapper.addEventListener("click", (e) => {
+    // SHOULDNT BE DOING THE BELOW FOR THIS BUTTON
+    closeOpenDialogs();
     DOM.getAddTodoTitleInput().value = todo.title;
     DOM.getAddTodoDescriptionInput().value = todo.description;
     DOM.getAddTodoDueDateInput().value = todo.dueDate;
@@ -207,4 +218,10 @@ function displayTodos() {
   todos.forEach((todo) => {
     DOM.getTodosDiv().appendChild(todo);
   });
+}
+
+function closeOpenDialogs() {
+  getAddTodoDialog().open ? getAddTodoDialog().close() : null;
+  getInfoTodoDialog().open ? getInfoTodoDialog().close() : null;
+  getAddProjectDialog().open ? getAddProjectDialog().close() : null;
 }

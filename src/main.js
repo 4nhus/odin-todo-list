@@ -2,7 +2,6 @@
 //  add styling
 //  refactor code
 //  add todo info to the info dialog
-//  clear all dialogs when new dialog is opened
 //  disable required form values on hide
 //  add ability to edit user details
 //  add page showing user details
