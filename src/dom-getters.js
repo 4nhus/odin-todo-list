@@ -3,7 +3,7 @@ function getAddTodoTitleInput() {
 }
 
 function getAddTodoDescriptionInput() {
-  return document.getElementById("todo-date");
+  return document.getElementById("todo-description");
 }
 
 function getAddTodoDueDateInput() {
@@ -16,6 +16,26 @@ function getAddTodoPriorityInput() {
 
 function getAddTodoNotesInput() {
   return document.getElementById("todo-notes");
+}
+
+function getInfoTodoTitle() {
+  return document.getElementById("title");
+}
+
+function getInfoTodoDescription() {
+  return document.getElementById("description");
+}
+
+function getInfoTodoDueDate() {
+  return document.getElementById("date");
+}
+
+function getInfoTodoPriority() {
+  return document.getElementById("priority");
+}
+
+function getInfoTodoNotes() {
+  return document.getElementById("notes");
 }
 
 function getAddProjectTitleInput() {
@@ -76,6 +96,11 @@ export {
   getAddTodoDueDateInput,
   getAddTodoPriorityInput,
   getAddTodoNotesInput,
+  getInfoTodoTitle,
+  getInfoTodoDescription,
+  getInfoTodoDueDate,
+  getInfoTodoPriority,
+  getInfoTodoNotes,
   getAddProjectTitleInput,
   getAddProjectDescriptionInput,
   getNewTodoButton,

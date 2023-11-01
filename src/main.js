@@ -1,7 +1,6 @@
 // TODO:
 //  add styling
 //  refactor code
-//  add todo info to the info dialog
 //  add ability to edit user details
 //  add page showing user details
 

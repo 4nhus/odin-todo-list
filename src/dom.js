@@ -55,7 +55,7 @@ function setupAddTodoButton() {
       const notes = DOM.getAddTodoNotesInput().value;
 
       getCurrentProject().addTodo(
-        new Todo(title, description, dueDate, priority, notes),
+        new Todo(title, description, dueDate, priority, false, notes),
       );
 
       renderTodos();
@@ -189,13 +189,12 @@ function createTodoCard(todo, project) {
   todoCard.appendChild(dueDate);
   buttonWrapper.appendChild(todoCard);
   buttonWrapper.addEventListener("click", (e) => {
-    // SHOULDNT BE DOING THE BELOW FOR THIS BUTTON
     closeOpenDialogs();
-    DOM.getAddTodoTitleInput().value = todo.title;
-    DOM.getAddTodoDescriptionInput().value = todo.description;
-    DOM.getAddTodoDueDateInput().value = todo.dueDate;
-    DOM.getAddTodoPriorityInput().value = todo.priority;
-    DOM.getAddTodoNotesInput().value = todo.notes;
+    DOM.getInfoTodoTitle().innerText = todo.title;
+    DOM.getInfoTodoDescription().innerText = todo.description;
+    DOM.getInfoTodoDueDate().innerText = todo.dueDate;
+    DOM.getInfoTodoPriority().innerText = todo.priority;
+    DOM.getInfoTodoNotes().innerText = todo.notes;
     DOM.getInfoTodoDialog().show();
     e.stopImmediatePropagation();
   });
