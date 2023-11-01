@@ -1,7 +1,6 @@
 // TODO:
 //  add styling
 //  refactor code
-//  add project deletion
 //  add todo info to the info dialog
 //  clear all dialogs when new dialog is opened
 //  disable required form values on hide
