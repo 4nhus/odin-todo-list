@@ -4,7 +4,6 @@
 //  add todo info to the info dialog
 //  add ability to edit user details
 //  add page showing user details
-//  add toggle for todo completion
 
 import "./style.css";
 import { createDefaultUser, createUserFromJSON, User } from "./user";

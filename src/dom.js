@@ -207,7 +207,21 @@ function createTodoCard(todo, project) {
     renderTodos();
     saveUserToLocalStorage();
   });
+
+  const toggleCompletionLabel = document.createElement("label");
+  const toggleCompletionCheckbox = document.createElement("input");
+  toggleCompletionLabel.innerText = "Toggle completion";
+  toggleCompletionCheckbox.type = "checkbox";
+  toggleCompletionCheckbox.name = "toggle-completion";
+  toggleCompletionCheckbox.value = "toggle-completion";
+  toggleCompletionLabel.appendChild(toggleCompletionCheckbox);
+  toggleCompletionCheckbox.addEventListener("click", () => {
+    todo.toggleCompletion();
+    console.log(todo.isCompleted);
+  });
+
   divWrapper.appendChild(buttonWrapper);
+  divWrapper.appendChild(toggleCompletionLabel);
   divWrapper.appendChild(deleteButton);
   return divWrapper;
 }
