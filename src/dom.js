@@ -3,13 +3,9 @@ import { Todo } from "./todo";
 import { Project } from "./project";
 import * as DOM from "./dom-getters";
 import { saveUserToLocalStorage } from "./local-storage";
-import {
-  getAddProjectDialog,
-  getAddTodoDialog,
-  getInfoTodoDialog,
-} from "./dom-getters";
 
-function resetTodoDueDateFormValue() {
+// RESET FUNCTIONS
+function setTodoDueDateFormValueToDefault() {
   DOM.getAddTodoDueDateInput().valueAsNumber =
     Date.now() - new Date().getTimezoneOffset() * 60000;
 }
@@ -21,13 +17,32 @@ function clearFormInputs(form) {
       input.value = "";
     });
 
-  resetTodoDueDateFormValue();
+  setTodoDueDateFormValueToDefault();
 }
 
-function closeDialogOnOutsideClick(dialog) {
-  window.addEventListener("click", (e) => {
+// SETUP FUNCTIONS
+function setupDialogCloseOnOutsideClick(dialog) {
+  // Prevent click bubbling through to outside elements
+  dialog.addEventListener("click", (e) => {
+    e.stopImmediatePropagation();
+  });
+
+  // Close dialog on outside click
+  window.addEventListener("click", () => {
     dialog.close();
   });
+}
+
+function setupDialogsToCloseOnEscapeAndOutsideClick() {
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeOpenDialogs();
+    }
+  });
+
+  setupDialogCloseOnOutsideClick(DOM.getAddTodoDialog());
+  setupDialogCloseOnOutsideClick(DOM.getAddProjectDialog());
+  setupDialogCloseOnOutsideClick(DOM.getInfoTodoDialog());
 }
 
 function setupAddTodoButton() {
@@ -43,7 +58,7 @@ function setupAddTodoButton() {
         new Todo(title, description, dueDate, priority, notes),
       );
 
-      displayTodos();
+      renderTodos();
       DOM.getAddTodoDialog().close();
       saveUserToLocalStorage();
     }
@@ -57,7 +72,7 @@ function setupAddProjectButton() {
       const description = DOM.getAddProjectDescriptionInput().value;
 
       getCurrentUser().addProject(new Project(title, description, new Set()));
-      displayProjects();
+      renderProjectsAndTodos();
 
       DOM.getAddProjectDialog().close();
       saveUserToLocalStorage();
@@ -66,13 +81,8 @@ function setupAddProjectButton() {
 }
 
 export default function setUpDOMManipulation() {
-  resetTodoDueDateFormValue();
-  displayProjects();
-  displayTodos();
-
-  DOM.getAddTodoDialog().addEventListener("click", (e) => {
-    e.stopImmediatePropagation();
-  });
+  setTodoDueDateFormValueToDefault();
+  renderProjectsAndTodos();
 
   DOM.getNewTodoButton().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
@@ -84,33 +94,58 @@ export default function setUpDOMManipulation() {
   setupAddTodoButton();
   setupAddProjectButton();
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      closeOpenDialogs();
-    }
-  });
-
-  DOM.getAddProjectDialog().addEventListener("click", (e) => {
-    e.stopImmediatePropagation();
-  });
-
-  closeDialogOnOutsideClick(DOM.getAddTodoDialog());
-  closeDialogOnOutsideClick(DOM.getAddProjectDialog());
-  closeDialogOnOutsideClick(DOM.getInfoTodoDialog());
+  setupDialogsToCloseOnEscapeAndOutsideClick();
 
   DOM.getNewProjectButton().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
     closeOpenDialogs();
-
     clearFormInputs(DOM.getAddProjectForm());
     DOM.getAddProjectDialog().show();
   });
 }
 
+// DISPLAY FUNCTIONS
 function clearProjects() {
   while (DOM.getProjectsDiv().children.length > 0) {
     DOM.getProjectsDiv().removeChild(DOM.getProjectsDiv().lastChild);
   }
+}
+
+function clearTodos() {
+  while (DOM.getTodosDiv().children.length > 1) {
+    DOM.getTodosDiv().removeChild(DOM.getTodosDiv().lastChild);
+  }
+}
+
+function renderProjectsAndTodos() {
+  renderProjects();
+  renderTodos();
+}
+
+function renderProjects() {
+  clearProjects();
+  const projects = [];
+
+  getCurrentUser()._projects.forEach((project) => {
+    projects.push(createProjectCard(project, getCurrentUser()));
+  });
+
+  projects.forEach((project) => {
+    DOM.getProjectsDiv().appendChild(project);
+  });
+}
+
+function renderTodos() {
+  clearTodos();
+  const todos = [];
+
+  getCurrentProject()._todos.forEach((todo) => {
+    todos.push(createTodoCard(todo, getCurrentProject()));
+  });
+
+  todos.forEach((todo) => {
+    DOM.getTodosDiv().appendChild(todo);
+  });
 }
 
 function createProjectCard(project, user) {
@@ -124,18 +159,17 @@ function createProjectCard(project, user) {
   projectCard.appendChild(title);
   projectCard.appendChild(description);
   buttonWrapper.appendChild(projectCard);
-  buttonWrapper.addEventListener("click", (e) => {
+  buttonWrapper.addEventListener("click", () => {
     // Make this project the current project
     getCurrentUser().currentProject = project;
-    displayTodos();
+    renderTodos();
   });
   const deleteButton = document.createElement("button");
   deleteButton.classList.add("h-11", "w-11");
   deleteButton.style.backgroundImage = "url(./assets/trash-bin.svg)";
   deleteButton.addEventListener("click", () => {
     user.deleteProject(project);
-    displayTodos();
-    displayProjects();
+    renderProjectsAndTodos();
     saveUserToLocalStorage();
   });
   divWrapper.appendChild(buttonWrapper);
@@ -143,26 +177,7 @@ function createProjectCard(project, user) {
   return divWrapper;
 }
 
-function displayProjects() {
-  clearProjects();
-  const projects = [];
-
-  getCurrentUser()._projects.forEach((project) => {
-    projects.push(createProjectCard(project, getCurrentUser()));
-  });
-
-  projects.forEach((project) => {
-    DOM.getProjectsDiv().appendChild(project);
-  });
-}
-
-function displayTodo(todo) {}
-
 function createTodoCard(todo, project) {
-  DOM.getInfoTodoDialog().addEventListener("click", (e) => {
-    e.stopImmediatePropagation();
-  });
-
   const divWrapper = document.createElement("div");
   const buttonWrapper = document.createElement("button");
   const todoCard = document.createElement("div");
@@ -189,31 +204,12 @@ function createTodoCard(todo, project) {
   deleteButton.style.backgroundImage = "url(./assets/trash-bin.svg)";
   deleteButton.addEventListener("click", () => {
     project.deleteTodo(todo);
-    displayTodos();
+    renderTodos();
     saveUserToLocalStorage();
   });
   divWrapper.appendChild(buttonWrapper);
   divWrapper.appendChild(deleteButton);
   return divWrapper;
-}
-
-function clearTodos() {
-  while (DOM.getTodosDiv().children.length > 1) {
-    DOM.getTodosDiv().removeChild(DOM.getTodosDiv().lastChild);
-  }
-}
-
-function displayTodos() {
-  clearTodos();
-  const todos = [];
-
-  getCurrentProject()._todos.forEach((todo) => {
-    todos.push(createTodoCard(todo, getCurrentProject()));
-  });
-
-  todos.forEach((todo) => {
-    DOM.getTodosDiv().appendChild(todo);
-  });
 }
 
 function closeOpenDialogs() {
