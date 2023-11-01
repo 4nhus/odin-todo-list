@@ -5,6 +5,7 @@
 //  disable required form values on hide
 //  add ability to edit user details
 //  add page showing user details
+//  add toggle for todo completion
 
 import "./style.css";
 import { createDefaultUser, createUserFromJSON, User } from "./user";

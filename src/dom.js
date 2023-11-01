@@ -32,7 +32,6 @@ function closeDialogOnOutsideClick(dialog) {
 
 function setupAddTodoButton() {
   DOM.getAddTodoButton().addEventListener("click", () => {
-    closeOpenDialogs();
     if (DOM.getAddTodoForm().checkValidity()) {
       const title = DOM.getAddTodoTitleInput().value;
       const description = DOM.getAddTodoDescriptionInput().value;
@@ -46,7 +45,6 @@ function setupAddTodoButton() {
 
       displayTodos();
       DOM.getAddTodoDialog().close();
-      clearFormInputs(DOM.getAddTodoForm());
       saveUserToLocalStorage();
     }
   });
@@ -54,16 +52,13 @@ function setupAddTodoButton() {
 
 function setupAddProjectButton() {
   DOM.getAddProjectButton().addEventListener("click", () => {
-    closeOpenDialogs();
     if (DOM.getAddProjectForm().checkValidity()) {
       const title = DOM.getAddProjectTitleInput().value;
       const description = DOM.getAddProjectDescriptionInput().value;
 
       getCurrentUser().addProject(new Project(title, description, new Set()));
-      console.log(getCurrentUser());
       displayProjects();
 
-      clearFormInputs(DOM.getAddProjectForm());
       DOM.getAddProjectDialog().close();
       saveUserToLocalStorage();
     }
@@ -82,6 +77,7 @@ export default function setUpDOMManipulation() {
   DOM.getNewTodoButton().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
     closeOpenDialogs();
+    clearFormInputs(DOM.getAddTodoForm());
     DOM.getAddTodoDialog().show();
   });
 
@@ -90,9 +86,7 @@ export default function setUpDOMManipulation() {
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
-      DOM.getAddTodoDialog().close();
-      DOM.getInfoTodoDialog().close();
-      DOM.getAddProjectDialog().close();
+      closeOpenDialogs();
     }
   });
 
@@ -107,6 +101,8 @@ export default function setUpDOMManipulation() {
   DOM.getNewProjectButton().addEventListener("click", (e) => {
     e.stopImmediatePropagation();
     closeOpenDialogs();
+
+    clearFormInputs(DOM.getAddProjectForm());
     DOM.getAddProjectDialog().show();
   });
 }
@@ -221,7 +217,7 @@ function displayTodos() {
 }
 
 function closeOpenDialogs() {
-  getAddTodoDialog().open ? getAddTodoDialog().close() : null;
-  getInfoTodoDialog().open ? getInfoTodoDialog().close() : null;
-  getAddProjectDialog().open ? getAddProjectDialog().close() : null;
+  DOM.getAddTodoDialog().open ? DOM.getAddTodoDialog().close() : null;
+  DOM.getInfoTodoDialog().open ? DOM.getInfoTodoDialog().close() : null;
+  DOM.getAddProjectDialog().open ? DOM.getAddProjectDialog().close() : null;
 }
