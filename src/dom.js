@@ -12,9 +12,9 @@ function setTodoDueDateFormValueToDefault() {
 
 function clearFormInputs(form) {
   Array.from(form.children)
-    .filter((child) => child.value && child.value !== "low")
+    .filter((child) => child.value)
     .forEach((input) => {
-      input.value = "";
+      input.value = input.tagName === "SELECT" ? "Low" : "";
     });
 
   setTodoDueDateFormValueToDefault();
@@ -223,10 +223,10 @@ function createTodoCard(todo, project) {
   buttonWrapper.addEventListener("click", (e) => {
     closeOpenDialogs();
     DOM.getInfoTodoTitle().innerText = todo.title;
-    DOM.getInfoTodoDescription().innerText = todo.description;
+    DOM.getInfoTodoDescription().innerText = todo.description || "N/A";
     DOM.getInfoTodoDueDate().innerText = todo.dueDate;
     DOM.getInfoTodoPriority().innerText = todo.priority;
-    DOM.getInfoTodoNotes().innerText = todo.notes;
+    DOM.getInfoTodoNotes().innerText = todo.notes || "N/A";
     DOM.getInfoTodoDialog().show();
     e.stopImmediatePropagation();
   });
