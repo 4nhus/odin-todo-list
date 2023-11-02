@@ -40,9 +40,9 @@ function setupDialogsToCloseOnEscapeAndOutsideClick() {
     }
   });
 
-  setupDialogCloseOnOutsideClick(DOM.getAddTodoDialog());
-  setupDialogCloseOnOutsideClick(DOM.getAddProjectDialog());
-  setupDialogCloseOnOutsideClick(DOM.getInfoTodoDialog());
+  DOM.getDialogs().forEach((dialog) => {
+    setupDialogCloseOnOutsideClick(dialog);
+  });
 }
 
 function setupAddTodoButton() {
@@ -54,7 +54,7 @@ function setupAddTodoButton() {
       const priority = DOM.getAddTodoPriorityInput().value;
       const notes = DOM.getAddTodoNotesInput().value;
 
-      getCurrentProject().addTodo(
+      getCurrentUser().addTodo(
         new Todo(title, description, dueDate, priority, false, notes),
       );
 
@@ -70,14 +70,41 @@ function setupAddProjectButton() {
     if (DOM.getAddProjectForm().checkValidity()) {
       const title = DOM.getAddProjectTitleInput().value;
       const description = DOM.getAddProjectDescriptionInput().value;
-
-      getCurrentUser().addProject(new Project(title, description, new Set()));
+      getCurrentUser().addProject(
+        new Project(title, description, new Set(), true),
+      );
       renderProjectsAndTodos();
 
       DOM.getAddProjectDialog().close();
       saveUserToLocalStorage();
     }
   });
+}
+
+function setupUserInfoButton() {
+  DOM.getUserInfoButton().addEventListener("click", (e) => {
+    e.stopImmediatePropagation();
+    closeOpenDialogs();
+    updateUserInfo();
+    DOM.getUserInfoDialog().show();
+  });
+}
+
+function updateUserInfo() {
+  const user = getCurrentUser();
+  DOM.getUserInfoName().innerText = user.name;
+  DOM.getUserInfoProjects().innerText = [...user.projects]
+    .map((project) => project.title)
+    .join("\n");
+  DOM.getUserInfoCurrentProject().innerText = user.currentProject
+    ? user.currentProject.title
+    : "";
+  DOM.getUserInfoNumberOfProjects().innerText = user.numberOfProjects;
+  DOM.getUserInfoNumberOfCompletedProjects().innerText =
+    user.numberOfCompletedProjects;
+  DOM.getUserInfoNumberOfTodos().innerText = user.numberOfTodos;
+  DOM.getUserInfoNumberOfCompletedTodos().innerText =
+    user.numberOfCompletedTodos;
 }
 
 export default function setUpDOMManipulation() {
@@ -93,6 +120,7 @@ export default function setUpDOMManipulation() {
 
   setupAddTodoButton();
   setupAddProjectButton();
+  setupUserInfoButton();
 
   setupDialogsToCloseOnEscapeAndOutsideClick();
 
@@ -127,7 +155,7 @@ function renderProjects() {
   const projects = [];
 
   getCurrentUser()._projects.forEach((project) => {
-    projects.push(createProjectCard(project, getCurrentUser()));
+    projects.push(createProjectCard(project));
   });
 
   projects.forEach((project) => {
@@ -139,16 +167,18 @@ function renderTodos() {
   clearTodos();
   const todos = [];
 
-  getCurrentProject()._todos.forEach((todo) => {
-    todos.push(createTodoCard(todo, getCurrentProject()));
-  });
+  if (getCurrentProject()) {
+    getCurrentProject()._todos.forEach((todo) => {
+      todos.push(createTodoCard(todo, getCurrentProject()));
+    });
 
-  todos.forEach((todo) => {
-    DOM.getTodosDiv().appendChild(todo);
-  });
+    todos.forEach((todo) => {
+      DOM.getTodosDiv().appendChild(todo);
+    });
+  }
 }
 
-function createProjectCard(project, user) {
+function createProjectCard(project) {
   const divWrapper = document.createElement("div");
   const buttonWrapper = document.createElement("button");
   const projectCard = document.createElement("div");
@@ -168,9 +198,11 @@ function createProjectCard(project, user) {
   deleteButton.classList.add("h-11", "w-11");
   deleteButton.style.backgroundImage = "url(./assets/trash-bin.svg)";
   deleteButton.addEventListener("click", () => {
-    user.deleteProject(project);
+    getCurrentUser().deleteProject(project);
     renderProjectsAndTodos();
     saveUserToLocalStorage();
+
+    console.log(getCurrentUser());
   });
   divWrapper.appendChild(buttonWrapper);
   divWrapper.appendChild(deleteButton);
@@ -204,6 +236,7 @@ function createTodoCard(todo, project) {
   deleteButton.addEventListener("click", () => {
     project.deleteTodo(todo);
     renderTodos();
+    getCurrentUser().decrementNumberOfTodos();
     saveUserToLocalStorage();
   });
 
@@ -213,10 +246,16 @@ function createTodoCard(todo, project) {
   toggleCompletionCheckbox.type = "checkbox";
   toggleCompletionCheckbox.name = "toggle-completion";
   toggleCompletionCheckbox.value = "toggle-completion";
+  toggleCompletionCheckbox.checked = todo.isCompleted;
   toggleCompletionLabel.appendChild(toggleCompletionCheckbox);
   toggleCompletionCheckbox.addEventListener("click", () => {
+    todo.isCompleted
+      ? getCurrentUser().decrementNumberOfCompletedTodos()
+      : getCurrentUser().incrementNumberOfCompletedTodos();
     todo.toggleCompletion();
-    console.log(todo.isCompleted);
+    project.updateProjectCompletionStatus();
+    getCurrentUser().updateNumberOfCompletedProjects();
+    saveUserToLocalStorage();
   });
 
   divWrapper.appendChild(buttonWrapper);
@@ -226,7 +265,7 @@ function createTodoCard(todo, project) {
 }
 
 function closeOpenDialogs() {
-  DOM.getAddTodoDialog().open ? DOM.getAddTodoDialog().close() : null;
-  DOM.getInfoTodoDialog().open ? DOM.getInfoTodoDialog().close() : null;
-  DOM.getAddProjectDialog().open ? DOM.getAddProjectDialog().close() : null;
+  DOM.getDialogs().forEach((dialog) => {
+    dialog.open ? dialog.close() : null;
+  });
 }

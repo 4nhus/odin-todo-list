@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Todo List</title>
     <link rel="stylesheet" href="./style.css">
+    <script src="user.js"></script>
 </head>
 <dialog id="add-todo-dialog">
     <form id="add-todo-form" action="" method="dialog" class="flex flex-col">
@@ -43,6 +44,20 @@
         <button id="add-project-button">Add project</button>
     </form>
 </dialog>
+<dialog id="user-info-dialog">
+    <form action="" method="dialog" class="flex flex-col">
+        <label for="user-name">Name: </label><span id="user-name"></span>
+        <label for="user-projects">Projects: </label><span id="user-projects"></span>
+        <label for="user-current-project">Current Project: </label><span id="user-current-project"></span>
+        <label for="user-number-of-projects">Number of projects: </label><span id="user-number-of-projects"></span>
+        <label for="user-number-of-completed-projects">Number of completed projects: </label><span
+            id="user-number-of-completed-projects"></span>
+        <label for="user-number-of-todos">Number of todos: </label><span id="user-number-of-todos"></span>
+        <label for="user-number-of-completed-todos">Number of completed todos: </label><span
+            id="user-number-of-completed-todos"></span>
+        <button id="save-user-changes-button">Save changes</button>
+    </form>
+</dialog>
 <body class="grid w-screen h-screen bg-gray-300">
 <div id="header" class="w-screen bg-blue-950 p-4">
     <div class="flex gap-2">
@@ -54,7 +69,16 @@
     </div>
 
     <h1 class="text-white">Hello, Anh</h1>
+    <button id="user-info-button" class="flex text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-white">
+            <path fill-rule="evenodd"
+                  d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+                  clip-rule="evenodd"/>
+        </svg>
+        Profile
+    </button>
 </div>
+
 <div id="body" class="grid grid-cols-2 ">
     <div id="projects" class="col-span-2">
     </div>

@@ -20,7 +20,7 @@ class User {
   ) {
     this._name = name;
     this._projects = projects;
-    if (projects.size === 0) {
+    if (projects.size === 0 && currentProject) {
       this._projects.add(currentProject);
     }
     this._currentProject = currentProject;
@@ -52,10 +52,34 @@ class User {
 
   addProject(project) {
     this.projects.add(project);
+    this._currentProject = project;
+
+    this._numberOfProjects++;
+    this._numberOfCompletedProjects++;
+  }
+
+  addTodo(todo) {
+    this._currentProject.addTodo(todo);
+    this.updateNumberOfCompletedProjects();
+    this._numberOfTodos++;
   }
 
   deleteProject(project) {
     this.projects.delete(project);
+    if (project === this._currentProject) {
+      this._currentProject =
+        this._projects.size === 0 ? null : this._projects.values().next().value;
+    }
+
+    if (project.isCompleted) {
+      this._numberOfCompletedProjects--;
+    }
+
+    this._numberOfProjects--;
+    this._numberOfTodos -= project._todos.size;
+    this._numberOfCompletedTodos -= [...project._todos].filter(
+      (todo) => todo.isCompleted,
+    ).length;
   }
 
   get numberOfProjects() {
@@ -105,6 +129,12 @@ class User {
   decrementNumberOfCompletedTodos(value) {
     this._numberOfCompletedTodos--;
   }
+
+  updateNumberOfCompletedProjects() {
+    this._numberOfCompletedProjects = [...this._projects].filter(
+      (project) => project.isCompleted,
+    ).length;
+  }
 }
 
 function createUserFromJSON(JSON) {
@@ -113,10 +143,12 @@ function createUserFromJSON(JSON) {
     projects.add(createProjectFromJSON(project));
   });
 
+  console.log(projects);
+
   return new User(
     JSON._name,
     projects,
-    projects.values().next().value,
+    projects.size === 0 ? null : projects.values().next().value,
     JSON._numberOfProjects,
     JSON._numberOfCompletedProjects,
     JSON._numberOfTodos,

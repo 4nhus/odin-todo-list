@@ -70,6 +70,7 @@ function createTodoFromJSON(JSON) {
     JSON._description,
     JSON._dueDate,
     JSON._priority,
+    JSON._isCompleted,
     JSON._notes,
   );
 }

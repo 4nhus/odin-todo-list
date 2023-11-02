@@ -1,14 +1,15 @@
 // TODO:
 //  add styling
-//  refactor code
+//  refactor updation of user stats (add container references to todos, projects
+//  general refactoring
 //  add ability to edit user details
-//  add page showing user details
 
 import "./style.css";
 import { createDefaultUser, createUserFromJSON, User } from "./user";
 import setUpDOMManipulation from "./dom";
 import { isLocalStorageAvailable } from "./local-storage";
 
+//window.localStorage.clear();
 // const user = (isLocalStorageAvailable() && window.localStorage.getItem("user")) || new User("", new Project("My second project", ""));
 const user =
   isLocalStorageAvailable() && window.localStorage.getItem("user")

@@ -1,93 +1,142 @@
+function getById(id) {
+  return document.getElementById(id);
+}
+
 function getAddTodoTitleInput() {
-  return document.getElementById("todo-title");
+  return getById("todo-title");
 }
 
 function getAddTodoDescriptionInput() {
-  return document.getElementById("todo-description");
+  return getById("todo-description");
 }
 
 function getAddTodoDueDateInput() {
-  return document.getElementById("todo-date");
+  return getById("todo-date");
 }
 
 function getAddTodoPriorityInput() {
-  return document.getElementById("todo-priority");
+  return getById("todo-priority");
 }
 
 function getAddTodoNotesInput() {
-  return document.getElementById("todo-notes");
+  return getById("todo-notes");
 }
 
 function getInfoTodoTitle() {
-  return document.getElementById("title");
+  return getById("title");
 }
 
 function getInfoTodoDescription() {
-  return document.getElementById("description");
+  return getById("description");
 }
 
 function getInfoTodoDueDate() {
-  return document.getElementById("date");
+  return getById("date");
 }
 
 function getInfoTodoPriority() {
-  return document.getElementById("priority");
+  return getById("priority");
 }
 
 function getInfoTodoNotes() {
-  return document.getElementById("notes");
+  return getById("notes");
 }
 
 function getAddProjectTitleInput() {
-  return document.getElementById("project-title");
+  return getById("project-title");
 }
 
 function getAddProjectDescriptionInput() {
-  return document.getElementById("project-description");
+  return getById("project-description");
 }
 
 function getNewTodoButton() {
-  return document.getElementById("new-todo-button");
+  return getById("new-todo-button");
 }
 
 function getAddTodoButton() {
-  return document.getElementById("add-todo-button");
+  return getById("add-todo-button");
 }
 
 function getAddProjectButton() {
-  return document.getElementById("add-project-button");
+  return getById("add-project-button");
 }
 
 function getAddTodoDialog() {
-  return document.getElementById("add-todo-dialog");
+  return getById("add-todo-dialog");
 }
 
 function getInfoTodoDialog() {
-  return document.getElementById("info-todo-dialog");
+  return getById("info-todo-dialog");
 }
 
 function getAddProjectDialog() {
-  return document.getElementById("add-project-dialog");
+  return getById("add-project-dialog");
 }
 
 function getAddTodoForm() {
-  return document.getElementById("add-todo-form");
+  return getById("add-todo-form");
 }
 
 function getAddProjectForm() {
-  return document.getElementById("add-project-form");
+  return getById("add-project-form");
 }
 
 function getNewProjectButton() {
-  return document.getElementById("new-project-button");
+  return getById("new-project-button");
 }
 
 function getTodosDiv() {
-  return document.getElementById("todos");
+  return getById("todos");
 }
 
 function getProjectsDiv() {
-  return document.getElementById("projects");
+  return getById("projects");
+}
+
+function getUserInfoButton() {
+  return getById("user-info-button");
+}
+
+function getUserInfoDialog() {
+  return getById("user-info-dialog");
+}
+
+function getUserInfoName() {
+  return getById("user-name");
+}
+
+function getUserInfoProjects() {
+  return getById("user-projects");
+}
+
+function getUserInfoCurrentProject() {
+  return getById("user-current-project");
+}
+
+function getUserInfoNumberOfProjects() {
+  return getById("user-number-of-projects");
+}
+
+function getUserInfoNumberOfCompletedProjects() {
+  return getById("user-number-of-completed-projects");
+}
+
+function getUserInfoNumberOfTodos() {
+  return getById("user-number-of-todos");
+}
+
+function getUserInfoNumberOfCompletedTodos() {
+  return getById("user-number-of-completed-todos");
+}
+
+function getDialogs() {
+  return [
+    getInfoTodoDialog(),
+    getUserInfoDialog(),
+    getAddProjectDialog(),
+    getAddTodoDialog(),
+  ];
 }
 
 export {
@@ -114,4 +163,14 @@ export {
   getAddProjectForm,
   getTodosDiv,
   getProjectsDiv,
+  getUserInfoButton,
+  getUserInfoDialog,
+  getUserInfoName,
+  getUserInfoProjects,
+  getUserInfoCurrentProject,
+  getUserInfoNumberOfProjects,
+  getUserInfoNumberOfCompletedProjects,
+  getUserInfoNumberOfTodos,
+  getUserInfoNumberOfCompletedTodos,
+  getDialogs,
 };
