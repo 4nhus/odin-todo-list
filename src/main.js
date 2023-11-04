@@ -3,6 +3,9 @@
 //  refactor updation of user stats (add container references to todos, projects
 //  general refactoring
 //  add ability to edit user details
+//  add ability to edit project details
+//  add ability to edit todo details
+//  add ability to clear user projects
 
 import "./style.css";
 import { createDefaultUser, createUserFromJSON, User } from "./user";

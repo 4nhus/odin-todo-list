@@ -1,13 +1,13 @@
 import { createProjectFromJSON, createDefaultProject } from "./project";
 
 class User {
-  _name;
-  _projects;
-  _currentProject;
-  _numberOfProjects;
-  _numberOfCompletedProjects;
-  _numberOfTodos;
-  _numberOfCompletedTodos;
+  name;
+  projects;
+  currentProject;
+  numberOfProjects;
+  numberOfCompletedProjects;
+  numberOfTodos;
+  numberOfCompletedTodos;
 
   constructor(
     name,
@@ -18,120 +18,84 @@ class User {
     numberOfTodos,
     numberOfCompletedTodos,
   ) {
-    this._name = name;
-    this._projects = projects;
+    this.name = name;
+    this.projects = projects;
     if (projects.size === 0 && currentProject) {
-      this._projects.add(currentProject);
+      this.projects.add(currentProject);
     }
-    this._currentProject = currentProject;
-    this._numberOfProjects = numberOfProjects;
-    this._numberOfCompletedProjects = numberOfCompleteProjects;
-    this._numberOfTodos = numberOfTodos;
-    this._numberOfCompletedTodos = numberOfCompletedTodos;
-  }
-
-  get name() {
-    return this._name;
-  }
-
-  set name(value) {
-    this._name = value;
-  }
-
-  get projects() {
-    return this._projects;
-  }
-
-  get currentProject() {
-    return this._currentProject;
-  }
-
-  set currentProject(value) {
-    this._currentProject = value;
+    this.currentProject = currentProject;
+    this.numberOfProjects = numberOfProjects;
+    this.numberOfCompletedProjects = numberOfCompleteProjects;
+    this.numberOfTodos = numberOfTodos;
+    this.numberOfCompletedTodos = numberOfCompletedTodos;
   }
 
   addProject(project) {
     this.projects.add(project);
-    this._currentProject = project;
+    this.currentProject = project;
 
-    this._numberOfProjects++;
-    this._numberOfCompletedProjects++;
+    this.numberOfProjects++;
+    this.numberOfCompletedProjects++;
   }
 
   addTodo(todo) {
-    this._currentProject.addTodo(todo);
+    this.currentProject.addTodo(todo);
     this.updateNumberOfCompletedProjects();
-    this._numberOfTodos++;
+    this.numberOfTodos++;
   }
 
   deleteProject(project) {
     this.projects.delete(project);
-    if (project === this._currentProject) {
-      this._currentProject =
-        this._projects.size === 0 ? null : this._projects.values().next().value;
+    if (project === this.currentProject) {
+      this.currentProject =
+        this.project.size === 0 ? null : this.project.values().next().value;
     }
 
     if (project.isCompleted) {
-      this._numberOfCompletedProjects--;
+      this.numberOfCompletedProjects--;
     }
 
-    this._numberOfProjects--;
-    this._numberOfTodos -= project._todos.size;
-    this._numberOfCompletedTodos -= [...project._todos].filter(
+    this.numberOfProjects--;
+    this.numberOfTodos -= project.todos.size;
+    this.numberOfCompletedTodos -= [...project.todos].filter(
       (todo) => todo.isCompleted,
     ).length;
   }
 
-  get numberOfProjects() {
-    return this._numberOfProjects;
-  }
-
   incrementNumberOfProjects(value) {
-    this._numberOfProjects++;
+    this.numberOfProjects++;
   }
 
   decrementNumberOfProjects(value) {
-    this._numberOfProjects--;
-  }
-
-  get numberOfCompletedProjects() {
-    return this._numberOfCompletedProjects;
+    this.numberOfProjects--;
   }
 
   incrementNumberOfCompletedProjects(value) {
-    this._numberOfCompletedProjects++;
+    this.numberOfCompletedProjects++;
   }
 
   decrementNumberOfCompletedProjects(value) {
-    this._numberOfCompletedProjects--;
-  }
-
-  get numberOfTodos() {
-    return this._numberOfTodos;
+    this.numberOfCompletedProjects--;
   }
 
   incrementNumberOfTodos(value) {
-    this._numberOfTodos++;
+    this.numberOfTodos++;
   }
 
   decrementNumberOfTodos(value) {
-    this._numberOfTodos--;
-  }
-
-  get numberOfCompletedTodos() {
-    return this._numberOfCompletedTodos;
+    this.numberOfTodos--;
   }
 
   incrementNumberOfCompletedTodos(value) {
-    this._numberOfCompletedTodos++;
+    this.numberOfCompletedTodos++;
   }
 
   decrementNumberOfCompletedTodos(value) {
-    this._numberOfCompletedTodos--;
+    this.numberOfCompletedTodos--;
   }
 
   updateNumberOfCompletedProjects() {
-    this._numberOfCompletedProjects = [...this._projects].filter(
+    this.numberOfCompletedProjects = [...this.projects].filter(
       (project) => project.isCompleted,
     ).length;
   }
@@ -139,20 +103,20 @@ class User {
 
 function createUserFromJSON(JSON) {
   const projects = new Set();
-  JSON._projects.forEach((project) => {
+  JSON.projects.forEach((project) => {
     projects.add(createProjectFromJSON(project));
   });
 
   console.log(projects);
 
   return new User(
-    JSON._name,
+    JSON.name,
     projects,
     projects.size === 0 ? null : projects.values().next().value,
-    JSON._numberOfProjects,
-    JSON._numberOfCompletedProjects,
-    JSON._numberOfTodos,
-    JSON._numberOfCompletedTodos,
+    JSON.numberOfProjects,
+    JSON.numberOfCompletedProjects,
+    JSON.numberOfTodos,
+    JSON.numberOfCompletedTodos,
   );
 }
 

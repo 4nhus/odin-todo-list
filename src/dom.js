@@ -154,7 +154,7 @@ function renderProjects() {
   clearProjects();
   const projects = [];
 
-  getCurrentUser()._projects.forEach((project) => {
+  getCurrentUser().projects.forEach((project) => {
     projects.push(createProjectCard(project));
   });
 
@@ -168,7 +168,7 @@ function renderTodos() {
   const todos = [];
 
   if (getCurrentProject()) {
-    getCurrentProject()._todos.forEach((todo) => {
+    getCurrentProject().todos.forEach((todo) => {
       todos.push(createTodoCard(todo, getCurrentProject()));
     });
 
@@ -214,9 +214,9 @@ function createTodoCard(todo, project) {
   const buttonWrapper = document.createElement("button");
   const todoCard = document.createElement("div");
   const title = document.createElement("h1");
-  title.innerText = todo._title;
+  title.innerText = todo.title;
   const dueDate = document.createElement("h1");
-  dueDate.innerText = todo._dueDate;
+  dueDate.innerText = todo.dueDate;
   todoCard.appendChild(title);
   todoCard.appendChild(dueDate);
   buttonWrapper.appendChild(todoCard);
