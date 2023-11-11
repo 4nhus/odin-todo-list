@@ -1,4 +1,11 @@
-function Todo(title, description, dueDate, priority, isCompleted, notes) {
+export default function Todo(
+  title,
+  description,
+  dueDate,
+  priority,
+  isCompleted,
+  notes,
+) {
   return {
     title,
     description,
@@ -12,7 +19,7 @@ function Todo(title, description, dueDate, priority, isCompleted, notes) {
   };
 }
 
-function createTodoFromJSON(JSON) {
+export function createTodoFromJSON(JSON) {
   return Todo(
     JSON.title,
     JSON.description,
@@ -22,5 +29,3 @@ function createTodoFromJSON(JSON) {
     JSON.notes,
   );
 }
-
-export { Todo, createTodoFromJSON };

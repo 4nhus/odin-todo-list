@@ -1,6 +1,6 @@
 import { createTodoFromJSON } from "./todo";
 
-function Project(title, description, todos, isCompleted) {
+export default function Project(title, description, todos, isCompleted) {
   return {
     title,
     description,
@@ -32,7 +32,7 @@ function Project(title, description, todos, isCompleted) {
   };
 }
 
-function createProjectFromJSON(JSON) {
+export function createProjectFromJSON(JSON) {
   const todos = new Set();
   JSON.todos.forEach((todo) => {
     todos.add(createTodoFromJSON(todo));
@@ -41,8 +41,6 @@ function createProjectFromJSON(JSON) {
   return Project(JSON.title, JSON.description, todos);
 }
 
-function createDefaultProject() {
+export function createDefaultProject() {
   return Project("Default Project Name", "", new Set(), true);
 }
-
-export { Project, createProjectFromJSON, createDefaultProject };

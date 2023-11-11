@@ -1,6 +1,6 @@
 import getUser from "./main";
-import { Todo } from "./todo";
-import { Project } from "./project";
+import Todo from "./todo";
+import Project from "./project";
 import { DOM } from "./dom-getters";
 import { saveUserToLocalStorage } from "./local-storage";
 

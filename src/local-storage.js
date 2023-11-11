@@ -1,6 +1,6 @@
-import { getUser } from "./main";
+import getUser from "./main";
 
-function isLocalStorageAvailable() {
+export function isLocalStorageAvailable() {
   let localStorage;
 
   try {
@@ -14,10 +14,10 @@ function isLocalStorageAvailable() {
   }
 }
 
-function saveUserToLocalStorage() {
+export function saveUserToLocalStorage() {
   window.localStorage.setItem(
     "user",
-    JSON.stringify(getCurrentUser(), (_key, value) =>
+    JSON.stringify(getUser(), (_key, value) =>
       value instanceof Set ? [...value] : value,
     ),
   );
