@@ -1,27 +1,19 @@
-class Todo {
-  title;
-  description;
-  dueDate;
-  priority;
-  isCompleted;
-  notes;
-
-  constructor(title, description, dueDate, priority, isCompleted, notes) {
-    this.title = title;
-    this.description = description;
-    this.dueDate = dueDate;
-    this.priority = priority;
-    this.isCompleted = isCompleted;
-    this.notes = notes;
-  }
-
-  toggleCompletion() {
-    this.isCompleted = !this.isCompleted;
-  }
+function Todo(title, description, dueDate, priority, isCompleted, notes) {
+  return {
+    title,
+    description,
+    dueDate,
+    priority,
+    isCompleted,
+    notes,
+    toggleCompletion() {
+      this.isCompleted = !this.isCompleted;
+    },
+  };
 }
 
 function createTodoFromJSON(JSON) {
-  return new Todo(
+  return Todo(
     JSON.title,
     JSON.description,
     JSON.dueDate,

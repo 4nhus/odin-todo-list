@@ -55,7 +55,7 @@ function setupAddTodoButton() {
       const notes = DOM.getAddTodoNotesInput().value;
 
       getCurrentUser().addTodo(
-        new Todo(title, description, dueDate, priority, false, notes),
+        Todo(title, description, dueDate, priority, false, notes),
       );
 
       renderTodos();
