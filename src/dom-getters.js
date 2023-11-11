@@ -1,201 +1,124 @@
-function getById(id) {
-  return document.getElementById(id);
-}
-
-function getAddTodoTitleInput() {
-  return getById("todo-title");
-}
-
-function getAddTodoDescriptionInput() {
-  return getById("todo-description");
-}
-
-function getAddTodoDueDateInput() {
-  return getById("todo-date");
-}
-
-function getAddTodoPriorityInput() {
-  return getById("todo-priority");
-}
-
-function getAddTodoNotesInput() {
-  return getById("todo-notes");
-}
-
-function getInfoTodoTitle() {
-  return getById("title");
-}
-
-function getInfoTodoDescription() {
-  return getById("description");
-}
-
-function getInfoTodoDueDate() {
-  return getById("date");
-}
-
-function getInfoTodoPriority() {
-  return getById("priority");
-}
-
-function getInfoTodoNotes() {
-  return getById("notes");
-}
-
-function getAddProjectTitleInput() {
-  return getById("project-title");
-}
-
-function getAddProjectDescriptionInput() {
-  return getById("project-description");
-}
-
-function getNewTodoButton() {
-  return getById("new-todo-button");
-}
-
-function getAddTodoButton() {
-  return getById("add-todo-button");
-}
-
-function getAddProjectButton() {
-  return getById("add-project-button");
-}
-
-function getAddTodoDialog() {
-  return getById("add-todo-dialog");
-}
-
-function getInfoTodoDialog() {
-  return getById("info-todo-dialog");
-}
-
-function getAddProjectDialog() {
-  return getById("add-project-dialog");
-}
-
-function getAddTodoForm() {
-  return getById("add-todo-form");
-}
-
-function getAddProjectForm() {
-  return getById("add-project-form");
-}
-
-function getNewProjectButton() {
-  return getById("new-project-button");
-}
-
-function getTodosDiv() {
-  return getById("todos");
-}
-
-function getProjectsDiv() {
-  return getById("projects");
-}
-
-function getUserInfoButton() {
-  return getById("user-info-button");
-}
-
-function getUserInfoDialog() {
-  return getById("user-info-dialog");
-}
-
-function getUserInfoName() {
-  return getById("user-name");
-}
-
-function getUserInfoProjects() {
-  return getById("user-projects");
-}
-
-function getUserInfoCurrentProject() {
-  return getById("user-current-project");
-}
-
-function getUserInfoNumberOfProjects() {
-  return getById("user-number-of-projects");
-}
-
-function getUserInfoNumberOfCompletedProjects() {
-  return getById("user-number-of-completed-projects");
-}
-
-function getUserInfoNumberOfTodos() {
-  return getById("user-number-of-todos");
-}
-
-function getUserInfoNumberOfCompletedTodos() {
-  return getById("user-number-of-completed-todos");
-}
-
-function getDialogs() {
-  return [
-    getInfoTodoDialog(),
-    getUserInfoDialog(),
-    getAddProjectDialog(),
-    getAddTodoDialog(),
-  ];
-}
-
-function getUserGreeting() {
-  return getById("user-greeting");
-}
-
-function getSaveUserButton() {
-  return getById("save-user-button");
-}
-
-function getEditUserButton() {
-  return getById("edit-user-button");
-}
-
-function getCancelUserEditButton() {
-  return getById("cancel-user-edit-button");
-}
-
-function getDeleteProjectsButton() {
-  return getById("delete-projects-button");
-}
-
-export {
-  getAddTodoTitleInput,
-  getAddTodoDescriptionInput,
-  getAddTodoDueDateInput,
-  getAddTodoPriorityInput,
-  getAddTodoNotesInput,
-  getInfoTodoTitle,
-  getInfoTodoDescription,
-  getInfoTodoDueDate,
-  getInfoTodoPriority,
-  getInfoTodoNotes,
-  getAddProjectTitleInput,
-  getAddProjectDescriptionInput,
-  getNewTodoButton,
-  getNewProjectButton,
-  getAddTodoButton,
-  getAddProjectButton,
-  getAddTodoDialog,
-  getInfoTodoDialog,
-  getAddProjectDialog,
-  getAddTodoForm,
-  getAddProjectForm,
-  getTodosDiv,
-  getProjectsDiv,
-  getUserInfoButton,
-  getUserInfoDialog,
-  getUserInfoName,
-  getUserInfoProjects,
-  getUserInfoCurrentProject,
-  getUserInfoNumberOfProjects,
-  getUserInfoNumberOfCompletedProjects,
-  getUserInfoNumberOfTodos,
-  getUserInfoNumberOfCompletedTodos,
-  getDialogs,
-  getUserGreeting,
-  getSaveUserButton,
-  getEditUserButton,
-  getCancelUserEditButton,
-  getDeleteProjectsButton,
+export const DOM = {
+  getById(id) {
+    return document.getElementById(id);
+  },
+  getAddTodoTitleInput() {
+    return this.getById("todo-title");
+  },
+  getAddTodoDescriptionInput() {
+    return this.getById("todo-description");
+  },
+  getAddTodoDueDateInput() {
+    return this.getById("todo-date");
+  },
+  getAddTodoPriorityInput() {
+    return this.getById("todo-priority");
+  },
+  getAddTodoNotesInput() {
+    return this.getById("todo-notes");
+  },
+  getInfoTodoTitle() {
+    return this.getById("title");
+  },
+  getInfoTodoDescription() {
+    return this.getById("description");
+  },
+  getInfoTodoDueDate() {
+    return this.getById("date");
+  },
+  getInfoTodoPriority() {
+    return this.getById("priority");
+  },
+  getInfoTodoNotes() {
+    return this.getById("notes");
+  },
+  getAddProjectTitleInput() {
+    return this.getById("project-title");
+  },
+  getAddProjectDescriptionInput() {
+    return this.getById("project-description");
+  },
+  getNewTodoButton() {
+    return this.getById("new-todo-button");
+  },
+  getAddTodoButton() {
+    return this.getById("add-todo-button");
+  },
+  getAddProjectButton() {
+    return this.getById("add-project-button");
+  },
+  getAddTodoDialog() {
+    return this.getById("add-todo-dialog");
+  },
+  getInfoTodoDialog() {
+    return this.getById("info-todo-dialog");
+  },
+  getAddProjectDialog() {
+    return this.getById("add-project-dialog");
+  },
+  getAddTodoForm() {
+    return this.getById("add-todo-form");
+  },
+  getAddProjectForm() {
+    return this.getById("add-project-form");
+  },
+  getNewProjectButton() {
+    return this.getById("new-project-button");
+  },
+  getTodosDiv() {
+    return this.getById("todos");
+  },
+  getProjectsDiv() {
+    return this.getById("projects");
+  },
+  getUserInfoButton() {
+    return this.getById("user-info-button");
+  },
+  getUserInfoDialog() {
+    return this.getById("user-info-dialog");
+  },
+  getUserInfoName() {
+    return this.getById("user-name");
+  },
+  getUserInfoProjects() {
+    return this.getById("user-projects");
+  },
+  getUserInfoCurrentProject() {
+    return this.getById("user-current-project");
+  },
+  getUserInfoNumberOfProjects() {
+    return this.getById("user-number-of-projects");
+  },
+  getUserInfoNumberOfCompletedProjects() {
+    return this.getById("user-number-of-completed-projects");
+  },
+  getUserInfoNumberOfTodos() {
+    return this.getById("user-number-of-todos");
+  },
+  getUserInfoNumberOfCompletedTodos() {
+    return this.getById("user-number-of-completed-todos");
+  },
+  getDialogs() {
+    return [
+      getInfoTodoDialog(),
+      getUserInfoDialog(),
+      getAddProjectDialog(),
+      getAddTodoDialog(),
+    ];
+  },
+  getUserGreeting() {
+    return this.getById("user-greeting");
+  },
+  getSaveUserButton() {
+    return this.getById("save-user-button");
+  },
+  getEditUserButton() {
+    return this.getById("edit-user-button");
+  },
+  getCancelUserEditButton() {
+    return this.getById("cancel-user-edit-button");
+  },
+  getDeleteProjectsButton() {
+    return this.getById("delete-projects-button");
+  },
 };

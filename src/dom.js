@@ -1,15 +1,8 @@
 import getUser from "./main";
 import { Todo } from "./todo";
 import { Project } from "./project";
-import * as DOM from "./dom-getters";
+import { DOM } from "./dom-getters";
 import { saveUserToLocalStorage } from "./local-storage";
-import {
-  getCancelUserEditButton,
-  getEditUserButton,
-  getSaveUserButton,
-  getUserInfoButton,
-  getUserInfoCurrentProject,
-} from "./dom-getters";
 
 // RESET FUNCTIONS
 function setTodoDueDateFormValueToDefault() {
