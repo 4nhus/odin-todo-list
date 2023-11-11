@@ -143,6 +143,10 @@ function getUserGreeting() {
   return getById("user-greeting");
 }
 
+function getSaveUserButton() {
+  return getById("save-user-button");
+}
+
 export {
   getAddTodoTitleInput,
   getAddTodoDescriptionInput,
@@ -178,4 +182,5 @@ export {
   getUserInfoNumberOfCompletedTodos,
   getDialogs,
   getUserGreeting,
+  getSaveUserButton,
 };

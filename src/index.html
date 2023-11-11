@@ -46,16 +46,18 @@
 </dialog>
 <dialog id="user-info-dialog">
     <form action="" method="dialog" class="flex flex-col">
-        <label for="user-name">Name: </label><span id="user-name"></span>
+        <label for="user-name">Name: </label>
+        <input id="user-name" type="text" value="">
         <label for="user-projects">Projects: </label><span id="user-projects"></span>
-        <label for="user-current-project">Current Project: </label><span id="user-current-project"></span>
+        <label for="user-current-project">Current Project: </label>
+        <select name="user-current-project" id="user-current-project"></select>
         <label for="user-number-of-projects">Number of projects: </label><span id="user-number-of-projects"></span>
         <label for="user-number-of-completed-projects">Number of completed projects: </label><span
             id="user-number-of-completed-projects"></span>
         <label for="user-number-of-todos">Number of todos: </label><span id="user-number-of-todos"></span>
         <label for="user-number-of-completed-todos">Number of completed todos: </label><span
             id="user-number-of-completed-todos"></span>
-        <button id="save-user-changes-button">Save changes</button>
+        <button id="save-user-button">Save changes</button>
     </form>
 </dialog>
 <body class="grid w-screen h-screen bg-gray-300">

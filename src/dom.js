@@ -3,6 +3,7 @@ import { Todo } from "./todo";
 import { Project } from "./project";
 import * as DOM from "./dom-getters";
 import { saveUserToLocalStorage } from "./local-storage";
+import { getUserInfoCurrentProject } from "./dom-getters";
 
 // RESET FUNCTIONS
 function setTodoDueDateFormValueToDefault() {
@@ -90,13 +91,20 @@ function setupUserInfoButton() {
 
 function updateUserInfo() {
   const user = getCurrentUser();
-  DOM.getUserInfoName().innerText = user.name;
+  DOM.getUserInfoName().value = user.name;
   DOM.getUserInfoProjects().innerText = [...user.projects]
     .map((project) => project.title)
     .join("\n");
-  DOM.getUserInfoCurrentProject().innerText = user.currentProject
-    ? user.currentProject.title
-    : "";
+  DOM.getUserInfoCurrentProject().replaceChildren();
+  getCurrentUser().projects.forEach((project) => {
+    const projectOption = document.createElement("option");
+    projectOption.value = project.title;
+    projectOption.innerText = project.title;
+    if (project === getCurrentProject()) {
+      projectOption.selected = true;
+    }
+    DOM.getUserInfoCurrentProject().appendChild(projectOption);
+  });
   DOM.getUserInfoNumberOfProjects().innerText = user.numberOfProjects;
   DOM.getUserInfoNumberOfCompletedProjects().innerText =
     user.numberOfCompletedProjects;
@@ -109,8 +117,24 @@ function setupUserGreeting() {
   DOM.getUserGreeting().innerText = `Hello, ${getCurrentUser().name}`;
 }
 
+function setUserNameInput() {
+  DOM.getUserInfoName().value = getCurrentUser().name;
+}
+
+function setupSaveUserButton() {
+  DOM.getSaveUserButton().addEventListener("click", () => {
+    getCurrentUser().name = DOM.getUserInfoName().value;
+    getCurrentUser().currentProject = [...getCurrentUser().projects][
+      DOM.getUserInfoCurrentProject().selectedIndex
+    ];
+    setupUserGreeting();
+    renderTodos();
+  });
+}
+
 export default function setUpDOMManipulation() {
   setupUserGreeting();
+  setUserNameInput();
   setTodoDueDateFormValueToDefault();
   renderProjectsAndTodos();
 
@@ -124,6 +148,7 @@ export default function setUpDOMManipulation() {
   setupAddTodoButton();
   setupAddProjectButton();
   setupUserInfoButton();
+  setupSaveUserButton();
 
   setupDialogsToCloseOnEscapeAndOutsideClick();
 
@@ -204,8 +229,6 @@ function createProjectCard(project) {
     getCurrentUser().deleteProject(project);
     renderProjectsAndTodos();
     saveUserToLocalStorage();
-
-    console.log(getCurrentUser());
   });
   divWrapper.appendChild(buttonWrapper);
   divWrapper.appendChild(deleteButton);
