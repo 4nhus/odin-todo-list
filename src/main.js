@@ -8,16 +8,15 @@
 //  add ability to clear user projects
 
 import "./style.css";
-import { createDefaultUser, createUserFromJSON, User } from "./user";
+import { createDefaultUser, createUserFromJSON } from "./user";
 import setUpDOMManipulation from "./dom";
 import { isLocalStorageAvailable } from "./local-storage";
 
-//window.localStorage.clear();
 // const user = (isLocalStorageAvailable() && window.localStorage.getItem("user")) || new User("", new Project("My second project", ""));
-const user =
-  isLocalStorageAvailable() && window.localStorage.getItem("user")
-    ? createUserFromJSON(JSON.parse(window.localStorage.getItem("user")))
-    : createDefaultUser();
+
+const user = isLocalStorageAvailable()
+  ? createUserFromJSON(JSON.parse(window.localStorage.getItem("user")))
+  : createDefaultUser();
 
 setUpDOMManipulation();
 
