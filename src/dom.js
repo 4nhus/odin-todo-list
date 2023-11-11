@@ -70,9 +70,7 @@ function setupAddProjectButton() {
     if (DOM.getAddProjectForm().checkValidity()) {
       const title = DOM.getAddProjectTitleInput().value;
       const description = DOM.getAddProjectDescriptionInput().value;
-      getCurrentUser().addProject(
-        new Project(title, description, new Set(), true),
-      );
+      getCurrentUser().addProject(Project(title, description, new Set(), true));
       renderProjectsAndTodos();
 
       DOM.getAddProjectDialog().close();
