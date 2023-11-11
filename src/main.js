@@ -16,10 +16,6 @@ const user = isLocalStorageAvailable()
 
 setUpDOMManipulation();
 
-export function getCurrentProject() {
-  return user.currentProject;
-}
-
-export function getCurrentUser() {
+export default function getUser() {
   return user;
 }

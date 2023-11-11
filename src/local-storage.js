@@ -1,4 +1,4 @@
-import { getCurrentUser } from "./main";
+import { getUser } from "./main";
 
 function isLocalStorageAvailable() {
   let localStorage;

@@ -1,4 +1,4 @@
-import { getCurrentProject, getCurrentUser } from "./main";
+import getUser from "./main";
 import { Todo } from "./todo";
 import { Project } from "./project";
 import * as DOM from "./dom-getters";
@@ -61,7 +61,7 @@ function setupAddTodoButton() {
       const priority = DOM.getAddTodoPriorityInput().value;
       const notes = DOM.getAddTodoNotesInput().value;
 
-      getCurrentUser().addTodo(
+      getUser().addTodo(
         Todo(title, description, dueDate, priority, false, notes),
       );
 
@@ -77,7 +77,7 @@ function setupAddProjectButton() {
     if (DOM.getAddProjectForm().checkValidity()) {
       const title = DOM.getAddProjectTitleInput().value;
       const description = DOM.getAddProjectDescriptionInput().value;
-      getCurrentUser().addProject(Project(title, description, new Set(), true));
+      getUser().addProject(Project(title, description, new Set(), true));
       renderProjectsAndTodos();
 
       DOM.getAddProjectDialog().close();
@@ -119,17 +119,17 @@ function setupCancelUserEditButton() {
 }
 
 function updateUserInfo() {
-  const user = getCurrentUser();
+  const user = getUser();
   DOM.getUserInfoName().value = user.name;
   DOM.getUserInfoProjects().innerText = [...user.projects]
     .map((project) => project.title)
     .join("\n");
   DOM.getUserInfoCurrentProject().replaceChildren();
-  getCurrentUser().projects.forEach((project) => {
+  getUser().projects.forEach((project) => {
     const projectOption = document.createElement("option");
     projectOption.value = project.title;
     projectOption.innerText = project.title;
-    if (project === getCurrentProject()) {
+    if (project === getUser().currentProject) {
       projectOption.selected = true;
     }
     DOM.getUserInfoCurrentProject().appendChild(projectOption);
@@ -143,17 +143,17 @@ function updateUserInfo() {
 }
 
 function setupUserGreeting() {
-  DOM.getUserGreeting().innerText = `Hello, ${getCurrentUser().name}`;
+  DOM.getUserGreeting().innerText = `Hello, ${getUser().name}`;
 }
 
 function setUserNameInput() {
-  DOM.getUserInfoName().value = getCurrentUser().name;
+  DOM.getUserInfoName().value = getUser().name;
 }
 
 function setupSaveUserButton() {
   DOM.getSaveUserButton().addEventListener("click", (e) => {
-    getCurrentUser().name = DOM.getUserInfoName().value;
-    getCurrentUser().currentProject = [...getCurrentUser().projects][
+    getUser().name = DOM.getUserInfoName().value;
+    getUser().currentProject = [...getUser().projects][
       DOM.getUserInfoCurrentProject().selectedIndex
     ];
     setupUserGreeting();
@@ -165,7 +165,7 @@ function setupSaveUserButton() {
 function setupDeleteProjectsButton() {
   DOM.getDeleteProjectsButton().addEventListener("click", () => {
     if (confirm("Delete all projects?")) {
-      getCurrentUser().deleteAllProjects();
+      getUser().deleteAllProjects();
       saveUserToLocalStorage();
       DOM.getUserInfoDialog().close();
       renderProjectsAndTodos();
@@ -226,7 +226,7 @@ function renderProjects() {
   clearProjects();
   const projects = [];
 
-  getCurrentUser().projects.forEach((project) => {
+  getUser().projects.forEach((project) => {
     projects.push(createProjectCard(project));
   });
 
@@ -239,9 +239,9 @@ function renderTodos() {
   clearTodos();
   const todos = [];
 
-  if (getCurrentProject()) {
-    getCurrentProject().todos.forEach((todo) => {
-      todos.push(createTodoCard(todo, getCurrentProject()));
+  if (getUser().currentProject) {
+    getUser().currentProject.todos.forEach((todo) => {
+      todos.push(createTodoCard(todo, getUser().currentProject));
     });
 
     todos.forEach((todo) => {
@@ -263,14 +263,14 @@ function createProjectCard(project) {
   buttonWrapper.appendChild(projectCard);
   buttonWrapper.addEventListener("click", () => {
     // Make this project the current project
-    getCurrentUser().currentProject = project;
+    getUser().currentProject = project;
     renderTodos();
   });
   const deleteButton = document.createElement("button");
   deleteButton.classList.add("h-11", "w-11");
   deleteButton.style.backgroundImage = "url(./assets/trash-bin.svg)";
   deleteButton.addEventListener("click", () => {
-    getCurrentUser().deleteProject(project);
+    getUser().deleteProject(project);
     renderProjectsAndTodos();
     saveUserToLocalStorage();
   });
@@ -306,7 +306,7 @@ function createTodoCard(todo, project) {
   deleteButton.addEventListener("click", () => {
     project.deleteTodo(todo);
     renderTodos();
-    getCurrentUser().decrementNumberOfTodos();
+    getUser().decrementNumberOfTodos();
     saveUserToLocalStorage();
   });
 
@@ -320,11 +320,11 @@ function createTodoCard(todo, project) {
   toggleCompletionLabel.appendChild(toggleCompletionCheckbox);
   toggleCompletionCheckbox.addEventListener("click", () => {
     todo.isCompleted
-      ? getCurrentUser().decrementNumberOfCompletedTodos()
-      : getCurrentUser().incrementNumberOfCompletedTodos();
+      ? getUser().decrementNumberOfCompletedTodos()
+      : getUser().incrementNumberOfCompletedTodos();
     todo.toggleCompletion();
     project.updateProjectCompletionStatus();
-    getCurrentUser().updateNumberOfCompletedProjects();
+    getUser().updateNumberOfCompletedProjects();
     saveUserToLocalStorage();
   });
 
