@@ -63,6 +63,13 @@ function User(
         (project) => project.isCompleted,
       ).length;
     },
+    deleteAllProjects() {
+      this.projects.clear();
+      this.numberOfProjects = 0;
+      this.numberOfCompletedProjects = 0;
+      this.numberOfTodos = 0;
+      this.numberOfCompletedTodos = 0;
+    },
   };
 }
 

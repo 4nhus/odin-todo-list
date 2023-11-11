@@ -3,7 +3,13 @@ import { Todo } from "./todo";
 import { Project } from "./project";
 import * as DOM from "./dom-getters";
 import { saveUserToLocalStorage } from "./local-storage";
-import { getUserInfoCurrentProject } from "./dom-getters";
+import {
+  getCancelUserEditButton,
+  getEditUserButton,
+  getSaveUserButton,
+  getUserInfoButton,
+  getUserInfoCurrentProject,
+} from "./dom-getters";
 
 // RESET FUNCTIONS
 function setTodoDueDateFormValueToDefault() {
@@ -85,7 +91,30 @@ function setupUserInfoButton() {
     e.stopImmediatePropagation();
     closeOpenDialogs();
     updateUserInfo();
+
+    if (!DOM.getDeleteProjectsButton().hasAttribute("hidden")) {
+      toggleUserInfoButtons();
+    }
     DOM.getUserInfoDialog().show();
+  });
+}
+
+function toggleUserInfoButtons() {
+  DOM.getEditUserButton().toggleAttribute("hidden");
+  DOM.getDeleteProjectsButton().toggleAttribute("hidden");
+  DOM.getCancelUserEditButton().toggleAttribute("hidden");
+  DOM.getSaveUserButton().toggleAttribute("hidden");
+}
+
+function setupEditUserButton() {
+  DOM.getEditUserButton().addEventListener("click", () => {
+    toggleUserInfoButtons();
+  });
+}
+
+function setupCancelUserEditButton() {
+  DOM.getCancelUserEditButton().addEventListener("click", () => {
+    toggleUserInfoButtons();
   });
 }
 
@@ -122,13 +151,25 @@ function setUserNameInput() {
 }
 
 function setupSaveUserButton() {
-  DOM.getSaveUserButton().addEventListener("click", () => {
+  DOM.getSaveUserButton().addEventListener("click", (e) => {
     getCurrentUser().name = DOM.getUserInfoName().value;
     getCurrentUser().currentProject = [...getCurrentUser().projects][
       DOM.getUserInfoCurrentProject().selectedIndex
     ];
     setupUserGreeting();
     renderTodos();
+    saveUserToLocalStorage();
+  });
+}
+
+function setupDeleteProjectsButton() {
+  DOM.getDeleteProjectsButton().addEventListener("click", () => {
+    if (confirm("Delete all projects?")) {
+      getCurrentUser().deleteAllProjects();
+      saveUserToLocalStorage();
+      DOM.getUserInfoDialog().close();
+      renderProjectsAndTodos();
+    }
   });
 }
 
@@ -137,6 +178,9 @@ export default function setUpDOMManipulation() {
   setUserNameInput();
   setTodoDueDateFormValueToDefault();
   renderProjectsAndTodos();
+  setupEditUserButton();
+  setupCancelUserEditButton();
+  setupDeleteProjectsButton();
 
   DOM.getNewTodoButton().addEventListener("click", (e) => {
     e.stopImmediatePropagation();

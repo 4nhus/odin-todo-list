@@ -147,6 +147,18 @@ function getSaveUserButton() {
   return getById("save-user-button");
 }
 
+function getEditUserButton() {
+  return getById("edit-user-button");
+}
+
+function getCancelUserEditButton() {
+  return getById("cancel-user-edit-button");
+}
+
+function getDeleteProjectsButton() {
+  return getById("delete-projects-button");
+}
+
 export {
   getAddTodoTitleInput,
   getAddTodoDescriptionInput,
@@ -183,4 +195,7 @@ export {
   getDialogs,
   getUserGreeting,
   getSaveUserButton,
+  getEditUserButton,
+  getCancelUserEditButton,
+  getDeleteProjectsButton,
 };
