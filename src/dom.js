@@ -105,7 +105,12 @@ function updateUserInfo() {
     user.numberOfCompletedTodos;
 }
 
+function setupUserGreeting() {
+  DOM.getUserGreeting().innerText = `Hello, ${getCurrentUser().name}`;
+}
+
 export default function setUpDOMManipulation() {
+  setupUserGreeting();
   setTodoDueDateFormValueToDefault();
   renderProjectsAndTodos();
 

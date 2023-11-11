@@ -139,6 +139,10 @@ function getDialogs() {
   ];
 }
 
+function getUserGreeting() {
+  return getById("user-greeting");
+}
+
 export {
   getAddTodoTitleInput,
   getAddTodoDescriptionInput,
@@ -173,4 +177,5 @@ export {
   getUserInfoNumberOfTodos,
   getUserInfoNumberOfCompletedTodos,
   getDialogs,
+  getUserGreeting,
 };
